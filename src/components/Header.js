@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 const HeaderBlock = styled.div`
   display: flex;
-  height: 10%;
+  position: fixed;
+  height: 8vh;
+  width: 100%;
   background-color: #b4e04b;
 `;
 const Header = () => <HeaderBlock>Header</HeaderBlock>;
