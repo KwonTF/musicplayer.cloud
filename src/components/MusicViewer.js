@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Content from '../common/Content';
 
-const MusicViewerBlock = styled.div`
-  margin-top: 8vh;
-  width: 100%;
-  height: 92%;
-  overflow-y: scroll;
-`;
+const MusicViewerBlock = styled(Content)``;
 
 const TestBlock = styled.div`
   height: 1500px;
