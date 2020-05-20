@@ -1,13 +1,14 @@
 import React from 'react';
-import Content from '../common/Content';
+import MusicViewer from '../components/MusicViewer';
 import Header from '../common/Header';
 import Player from '../common/Player';
 
-const AlbumPage = () => (
+const Index = () => (
   <>
     <Header />
-    <Content>Album</Content>
+    <MusicViewer />
     <Player />
   </>
 );
-export default AlbumPage;
+
+export default Index;

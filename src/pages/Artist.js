@@ -3,12 +3,12 @@ import Content from '../common/Content';
 import Header from '../common/Header';
 import Player from '../common/Player';
 
-const PlayListPage = () => (
+const Artist = () => (
   <>
     <Header />
-    <Content>PlayList</Content>
+    <Content>Artist</Content>
     <Player />
   </>
 );
 
-export default PlayListPage;
+export default Artist;

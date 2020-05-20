@@ -1,14 +1,14 @@
 import React from 'react';
-import MusicViewer from '../components/MusicViewer';
+import Content from '../common/Content';
 import Header from '../common/Header';
 import Player from '../common/Player';
 
-const MusicPage = () => (
+const PlayList = () => (
   <>
     <Header />
-    <MusicViewer />
+    <Content>PlayList</Content>
     <Player />
   </>
 );
 
-export default MusicPage;
+export default PlayList;
