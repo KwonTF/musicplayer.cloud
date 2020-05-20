@@ -1,13 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import Responsive from './Responsive';
 
-const HeaderBlock = styled.div`
+const HeaderBlock = styled(Responsive)`
   display: flex;
-  position: fixed;
-  height: 8vh;
-  width: 100%;
+  position: absolute;
+  height: 8%;
+  width: 100vw;
   background-color: #b4e04b;
+  align-items: center;
+  justify-content: space-between;
 `;
-const Header = () => <HeaderBlock>Header</HeaderBlock>;
+const HeaderLeftArea = styled.div``;
+const HeaderRightArea = styled.div``;
+
+const Header = () => (
+  <HeaderBlock>
+    <HeaderLeftArea>Left</HeaderLeftArea>
+    <HeaderRightArea>Right</HeaderRightArea>
+  </HeaderBlock>
+);
 
 export default Header;
