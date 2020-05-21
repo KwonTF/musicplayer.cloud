@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Responsive from './Responsive';
 
 const HeaderBlock = styled(Responsive)`
@@ -16,7 +17,7 @@ const HeaderBlock = styled(Responsive)`
   font-weight: 700;
   font-size: 1.5rem;
 `;
-const HeaderLeftArea = styled.div`
+const HeaderArea = styled.div`
   display: flex;
   align-items: center;
   .HeaderLinks {
@@ -27,7 +28,6 @@ const HeaderLeftArea = styled.div`
     }
   }
 `;
-const HeaderRightArea = styled.div``;
 
 const LoginButton = withStyles({
   root: {
@@ -41,22 +41,45 @@ const LoginButton = withStyles({
   },
 })(Button);
 
-const Header = () => (
-  <HeaderBlock>
-    <HeaderLeftArea>
-      <Link to="/">ESC</Link>
-      <div className="HeaderLinks">
-        <Link to="/artist">Artist</Link>
-        <Link to="/album">Album</Link>
-        <Link to="/playlist">Track</Link>
-      </div>
-    </HeaderLeftArea>
-    <HeaderRightArea>
-      <LoginButton>
-        <Link to="/login">Log In</Link>
-      </LoginButton>
-    </HeaderRightArea>
-  </HeaderBlock>
-);
+const Header = ({ location: { pathname } }) => {
+  console.log(pathname);
+  return (
+    <HeaderBlock>
+      <HeaderArea>
+        <Link to="/">ESC</Link>
+        <div className="HeaderLinks">
+          <Link
+            to="/artist"
+            style={pathname === '/artist' ? {} : { color: '#BBBBBB' }}
+          >
+            Artist
+          </Link>
+          <Link
+            to="/album"
+            style={pathname === '/album' ? {} : { color: '#BBBBBB' }}
+          >
+            Album
+          </Link>
+          <Link
+            to="/playlist"
+            style={pathname === '/playlist' ? {} : { color: '#BBBBBB' }}
+          >
+            Track
+          </Link>
+        </div>
+      </HeaderArea>
+      <HeaderArea>
+        <LoginButton>
+          <Link to="/login">Log In</Link>
+        </LoginButton>
+      </HeaderArea>
+    </HeaderBlock>
+  );
+};
 
-export default Header;
+Header.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+};
+export default withRouter(Header);
