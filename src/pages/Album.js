@@ -1,9 +1,4 @@
 import React from 'react';
-import Content from '../common/Content';
 
-const Album = () => (
-  <>
-    <Content>Album</Content>
-  </>
-);
+const Album = () => <>Album</>;
 export default Album;

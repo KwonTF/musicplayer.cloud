@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Content from '../common/Content';
 
-const MusicViewerBlock = styled(Content)``;
+const MusicViewerBlock = styled.div``;
 
 const TestBlock = styled.div`
   height: 1500px;

@@ -1,10 +1,5 @@
 import React from 'react';
-import Content from '../common/Content';
 
-const Artist = () => (
-  <>
-    <Content>Artist</Content>
-  </>
-);
+const Artist = () => <>Artist</>;
 
 export default Artist;

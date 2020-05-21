@@ -1,10 +1,5 @@
 import React from 'react';
-import Content from '../common/Content';
 
-const PlayList = () => (
-  <>
-    <Content>PlayList</Content>
-  </>
-);
+const PlayList = () => <>PlayList</>;
 
 export default PlayList;
