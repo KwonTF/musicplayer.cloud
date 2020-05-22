@@ -8,9 +8,6 @@ const HeaderBlock = styled(Toolbar)({
   fontWeight: 700,
   fontSize: '1.5rem',
 });
-const HeaderArea = styled(Box)({
-  display: 'flex',
-});
 const HeaderLinks = styled(Box)({
   fontSize: '1.3rem',
   fontWight: 400,
@@ -36,31 +33,27 @@ const Header = () => {
     <>
       <AppBar>
         <HeaderBlock>
-          <HeaderArea flexGrow={1}>
-            <NavLink to="/">ESC</NavLink>
-            <HeaderLinks>
-              <LinkBox>
-                <NavLink to="/artist" activeStyle={ActiveStyle}>
-                  Artist
-                </NavLink>
-              </LinkBox>
-              <LinkBox>
-                <NavLink to="/album" activeStyle={ActiveStyle}>
-                  Album
-                </NavLink>
-              </LinkBox>
-              <LinkBox>
-                <NavLink to="/playlist" activeStyle={ActiveStyle}>
-                  Track
-                </NavLink>
-              </LinkBox>
-            </HeaderLinks>
-          </HeaderArea>
-          <HeaderArea>
-            <LoginButton>
-              <Link to="/login">Log In</Link>
-            </LoginButton>
-          </HeaderArea>
+          <NavLink to="/">ESC</NavLink>
+          <HeaderLinks flexGrow={1}>
+            <LinkBox>
+              <NavLink to="/artist" activeStyle={ActiveStyle}>
+                Artist
+              </NavLink>
+            </LinkBox>
+            <LinkBox>
+              <NavLink to="/album" activeStyle={ActiveStyle}>
+                Album
+              </NavLink>
+            </LinkBox>
+            <LinkBox>
+              <NavLink to="/playlist" activeStyle={ActiveStyle}>
+                Track
+              </NavLink>
+            </LinkBox>
+          </HeaderLinks>
+          <LoginButton>
+            <Link to="/login">Log In</Link>
+          </LoginButton>
         </HeaderBlock>
       </AppBar>
       <Toolbar />
