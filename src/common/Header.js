@@ -1,79 +1,79 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, withStyles } from '@material-ui/core';
+import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import Responsive from './Responsive';
 
-const HeaderBlock = styled(Responsive)`
-  display: flex;
-  position: absolute;
-  height: 8%;
-  width: 100vw;
-  background-color: #56613d;
-  align-items: center;
-  justify-content: space-between;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.5rem;
-`;
-const HeaderArea = styled.div`
-  display: flex;
-  align-items: center;
-  .HeaderLinks {
-    font-size: 1.3rem;
-    font-weight: 400;
-    a {
-      margin-left: 10%;
-    }
-  }
-`;
-
-const LoginButton = withStyles({
-  root: {
-    background: '#474261',
-    color: '#EEEEEE',
-    fontFamily: 'Lato',
-    fontSize: 16,
-    '&:hover': {
-      background: '#877FAD',
-    },
+const HeaderBlock = styled(Toolbar)({
+  backgroundColor: '#56613d',
+  color: '#ffffff',
+  fontWeight: 700,
+  fontSize: '1.5rem',
+});
+const HeaderArea = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+});
+const HeaderLinks = styled(Box)({
+  fontSize: '1.3rem',
+  fontWight: 400,
+  display: 'flex',
+});
+const LinkBox = styled(Box)({
+  paddingLeft: '1rem',
+});
+const LoginButton = styled(Button)({
+  backgroundColor: '#474261',
+  color: '#EEEEEE',
+  fontFamily: 'Lato',
+  fontSize: 16,
+  '&:hover': {
+    background: '#877FAD',
   },
-})(Button);
-
+});
 const Header = ({ location: { pathname } }) => {
   console.log(pathname);
   return (
-    <HeaderBlock>
-      <HeaderArea>
-        <Link to="/">ESC</Link>
-        <div className="HeaderLinks">
-          <Link
-            to="/artist"
-            style={pathname === '/artist' ? {} : { color: '#BBBBBB' }}
-          >
-            Artist
-          </Link>
-          <Link
-            to="/album"
-            style={pathname === '/album' ? {} : { color: '#BBBBBB' }}
-          >
-            Album
-          </Link>
-          <Link
-            to="/playlist"
-            style={pathname === '/playlist' ? {} : { color: '#BBBBBB' }}
-          >
-            Track
-          </Link>
-        </div>
-      </HeaderArea>
-      <HeaderArea>
-        <LoginButton>
-          <Link to="/login">Log In</Link>
-        </LoginButton>
-      </HeaderArea>
-    </HeaderBlock>
+    <>
+      <AppBar>
+        <HeaderBlock>
+          <HeaderArea flexGrow={1}>
+            <Link to="/">ESC</Link>
+            <HeaderLinks>
+              <LinkBox>
+                <Link
+                  to="/artist"
+                  style={pathname === '/artist' ? {} : { color: '#BBBBBB' }}
+                >
+                  Artist
+                </Link>
+              </LinkBox>
+              <LinkBox>
+                <Link
+                  to="/album"
+                  style={pathname === '/album' ? {} : { color: '#BBBBBB' }}
+                >
+                  Album
+                </Link>
+              </LinkBox>
+              <LinkBox>
+                <Link
+                  to="/playlist"
+                  style={pathname === '/playlist' ? {} : { color: '#BBBBBB' }}
+                >
+                  Track
+                </Link>
+              </LinkBox>
+            </HeaderLinks>
+          </HeaderArea>
+          <HeaderArea>
+            <LoginButton>
+              <Link to="/login">Log In</Link>
+            </LoginButton>
+          </HeaderArea>
+        </HeaderBlock>
+      </AppBar>
+      <Toolbar />
+    </>
   );
 };
 
