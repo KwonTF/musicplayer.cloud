@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
-import PropTypes from 'prop-types';
 
 const HeaderBlock = styled(Toolbar)({
   backgroundColor: '#56613d',
@@ -11,12 +10,12 @@ const HeaderBlock = styled(Toolbar)({
 });
 const HeaderArea = styled(Box)({
   display: 'flex',
-  alignItems: 'center',
 });
 const HeaderLinks = styled(Box)({
   fontSize: '1.3rem',
   fontWight: 400,
   display: 'flex',
+  color: '#bbbbbb',
 });
 const LinkBox = styled(Box)({
   paddingLeft: '1rem',
@@ -30,38 +29,30 @@ const LoginButton = styled(Button)({
     background: '#877FAD',
   },
 });
-const Header = ({ location: { pathname } }) => {
-  console.log(pathname);
+const ActiveStyle = { color: '#FFFFFF' };
+
+const Header = () => {
   return (
     <>
       <AppBar>
         <HeaderBlock>
           <HeaderArea flexGrow={1}>
-            <Link to="/">ESC</Link>
+            <NavLink to="/">ESC</NavLink>
             <HeaderLinks>
               <LinkBox>
-                <Link
-                  to="/artist"
-                  style={pathname === '/artist' ? {} : { color: '#BBBBBB' }}
-                >
+                <NavLink to="/artist" activeStyle={ActiveStyle}>
                   Artist
-                </Link>
+                </NavLink>
               </LinkBox>
               <LinkBox>
-                <Link
-                  to="/album"
-                  style={pathname === '/album' ? {} : { color: '#BBBBBB' }}
-                >
+                <NavLink to="/album" activeStyle={ActiveStyle}>
                   Album
-                </Link>
+                </NavLink>
               </LinkBox>
               <LinkBox>
-                <Link
-                  to="/playlist"
-                  style={pathname === '/playlist' ? {} : { color: '#BBBBBB' }}
-                >
+                <NavLink to="/playlist" activeStyle={ActiveStyle}>
                   Track
-                </Link>
+                </NavLink>
               </LinkBox>
             </HeaderLinks>
           </HeaderArea>
@@ -77,9 +68,4 @@ const Header = ({ location: { pathname } }) => {
   );
 };
 
-Header.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
-};
 export default withRouter(Header);
