@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Grid, Box, Typography } from '@material-ui/core';
+import LoginController from '../controllers/LoginController';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -15,7 +16,7 @@ const LoginBox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  backgroundColor: '#DDDDDD',
+  backgroundColor: '#FEFEFE',
 });
 
 const LoginHeader = styled(Typography)({
@@ -24,12 +25,15 @@ const LoginHeader = styled(Typography)({
   fontSize: '2rem',
   letterSpacing: '2px',
 });
-const Login = () => (
-  <LoginGrid>
-    <LoginBox boxShadow={2}>
-      <LoginHeader>ESC</LoginHeader>
-      <p>AAA</p>
-    </LoginBox>
-  </LoginGrid>
-);
+
+const Login = () => {
+  return (
+    <LoginGrid>
+      <LoginBox boxShadow={2}>
+        <LoginHeader>ESC</LoginHeader>
+        <LoginController />
+      </LoginBox>
+    </LoginGrid>
+  );
+};
 export default Login;
