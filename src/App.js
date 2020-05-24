@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import { styled, Box } from '@material-ui/core';
+import { styled, Container } from '@material-ui/core';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Artist from './pages/Artist';
 import Login from './pages/Login';
 import PlayList from './pages/PlayList';
@@ -9,7 +9,7 @@ import Index from './pages/Index';
 import Header from './components/Header';
 import Player from './components/Player';
 
-const ContentBlock = styled(Box)({
+const ContentBlock = styled(Container)({
   height: '100%',
   overflowY: 'scroll',
   paddingLeft: '1%',
@@ -26,17 +26,19 @@ const AppStyle = {
 
 function App() {
   return (
-    <div className="App" style={AppStyle}>
-      <Header />
-      <ContentBlock>
-        <Route component={Index} path="/" exact />
-        <Route component={Artist} path="/artist" />
-        <Route component={Login} path="/login" />
-        <Route component={PlayList} path="/playlist" />
-        <Route component={Album} path="/album" />
-      </ContentBlock>
-      <Player />
-    </div>
+    <BrowserRouter>
+      <div className="App" style={AppStyle}>
+        <Header />
+        <ContentBlock>
+          <Route component={Index} path="/" exact />
+          <Route component={Artist} path="/artist" />
+          <Route component={Login} path="/login" />
+          <Route component={PlayList} path="/playlist" />
+          <Route component={Album} path="/album" />
+        </ContentBlock>
+        <Player />
+      </div>
+    </BrowserRouter>
   );
 }
 
