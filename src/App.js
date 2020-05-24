@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { styled, Box } from '@material-ui/core';
-import './App.css';
 import Artist from './pages/Artist';
 import Login from './pages/Login';
 import PlayList from './pages/PlayList';
@@ -17,9 +16,17 @@ const ContentBlock = styled(Box)({
   paddingRight: '1%',
 });
 
+const AppStyle = {
+  display: 'block',
+  position: 'fixed',
+  width: '100%',
+  height: '100%',
+  fontFamily: ['Lato', 'sans-serif'],
+};
+
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={AppStyle}>
       <Header />
       <ContentBlock>
         <Route component={Index} path="/" exact />
