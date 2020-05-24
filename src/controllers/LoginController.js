@@ -6,11 +6,11 @@ const LoginSuccess = (response) => {
 };
 const LoginFailure = (response) => {
   console.log('Failed');
-  console.log(response.error);
+  console.log(response);
 };
 
 const CLIENT_ID =
-  '413749160889-mvn7kkimsgm8j081kfh633rhdfv4cacc.apps.googleusercontent.com';
+  '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
 
 const LoginController = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Grid, Box, Typography } from '@material-ui/core';
+import { styled } from '@material-ui/styles';
 import LoginController from '../controllers/LoginController';
 
 const LoginGrid = styled(Grid)({

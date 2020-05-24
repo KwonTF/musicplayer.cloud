@@ -1,13 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import { styled } from '@material-ui/styles';
+import { Box } from '@material-ui/core';
 
-const MusicViewerBlock = styled.div``;
+const MusicViewerBlock = styled(Box)({});
 
-const TestBlock = styled.div`
-  height: 1500px;
-  width: 100%;
-  background-color: aquamarine;
-`;
+const TestBlock = styled(Box)({
+  height: '1500px',
+  width: '100%',
+  backgroundColor: 'aquamarine',
+});
 const MusicViewer = () => (
   <MusicViewerBlock>
     MusicViewerBlock
