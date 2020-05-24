@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginComponent from '../components/LoginComponent';
+import GoogleLogin from 'react-google-login';
 
 const LoginSuccess = (response) => {
   console.log(response);
@@ -9,17 +9,18 @@ const LoginFailure = (response) => {
   console.log(response);
 };
 
-const CLIENT_ID =
+const GOOGLE_CLIENT_ID =
   '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
 
-const LoginController = () => {
+const LoginMethods = () => {
   return (
-    <LoginComponent
-      clientId={CLIENT_ID}
-      LoginFailure={LoginFailure}
-      LoginSuccess={LoginSuccess}
+    <GoogleLogin
+      clientId={GOOGLE_CLIENT_ID}
+      buttonText="ESC with Google"
+      onSuccess={LoginSuccess}
+      onFailure={LoginFailure}
     />
   );
 };
 
-export default LoginController;
+export default LoginMethods;

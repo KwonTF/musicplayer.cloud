@@ -7,8 +7,8 @@ import Login from './pages/Login';
 import PlayList from './pages/PlayList';
 import Album from './pages/Album';
 import Index from './pages/Index';
-import Header from './common/Header';
-import Player from './common/Player';
+import Header from './components/Header';
+import Player from './components/Player';
 
 const ContentBlock = styled(Box)({
   height: '100%',

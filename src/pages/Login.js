@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
-import LoginController from '../controllers/LoginController';
+import LoginMethods from '../components/LoginMethods';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -31,7 +31,7 @@ const Login = () => {
     <LoginGrid>
       <LoginBox boxShadow={2}>
         <LoginHeader>ESC</LoginHeader>
-        <LoginController />
+        <LoginMethods />
       </LoginBox>
     </LoginGrid>
   );
