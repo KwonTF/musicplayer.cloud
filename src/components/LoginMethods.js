@@ -4,6 +4,7 @@ import GoogleLogin from 'react-google-login';
 const LoginSuccess = (response) => {
   console.log(response);
 };
+
 const LoginFailure = (response) => {
   console.log('Failed');
   console.log(response);

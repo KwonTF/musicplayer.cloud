@@ -6,6 +6,7 @@ const PlayerBlock = styled(Box)({
   position: 'absolute',
   bottom: 0,
 });
+
 const Player = () => <PlayerBlock>Player</PlayerBlock>;
 
 export default Player;

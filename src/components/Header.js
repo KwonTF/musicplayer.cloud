@@ -8,15 +8,18 @@ const HeaderBlock = styled(Toolbar)({
   fontWeight: 700,
   fontSize: '1.5rem',
 });
+
 const HeaderLinks = styled(Box)({
   fontSize: '1.3rem',
   fontWight: 400,
   display: 'flex',
   color: '#bbbbbb',
 });
+
 const LinkBox = styled(Box)({
   paddingLeft: '1rem',
 });
+
 const LoginButton = styled(Button)({
   backgroundColor: '#474261',
   color: '#EEEEEE',
@@ -26,6 +29,7 @@ const LoginButton = styled(Button)({
     background: '#877FAD',
   },
 });
+
 const ActiveStyle = { color: '#FFFFFF' };
 
 const Header = () => {
