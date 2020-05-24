@@ -1,9 +1,19 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import Header from './components/Header';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('구수한 그만의 테.스.트 코드', () => {
+  it('메뉴 다 있냐', () => {
+    const utils = render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    );
+    utils.getByText('ESC');
+    utils.getByText('Album');
+    utils.getByText('Artist');
+    utils.getByText('Track');
+    utils.getByText('Log In');
+  });
 });

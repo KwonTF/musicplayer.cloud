@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
 
 const HeaderBlock = styled(Toolbar)({
@@ -56,7 +56,7 @@ const Header = () => {
             </LinkBox>
           </HeaderLinks>
           <LoginButton>
-            <Link to="/login">Log In</Link>
+            <NavLink to="/login">Log In</NavLink>
           </LoginButton>
         </HeaderBlock>
       </AppBar>
@@ -65,4 +65,4 @@ const Header = () => {
   );
 };
 
-export default withRouter(Header);
+export default Header;
