@@ -63,7 +63,9 @@ const Header = () => {
             </LinkBox>
           </HeaderLinks>
           <LoginButton>
-            <NavLink to="/login">Log In</NavLink>
+            <NavLink to="/login" style={LinkStyle}>
+              Log In
+            </NavLink>
           </LoginButton>
         </HeaderBlock>
       </AppBar>
