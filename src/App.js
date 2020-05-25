@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, Container } from '@material-ui/core';
+import { styled, Container, Box } from '@material-ui/core';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Artist from './pages/Artist';
 import Login from './pages/Login';
@@ -27,7 +27,7 @@ const AppStyle = {
 function App() {
   return (
     <BrowserRouter>
-      <div className="App" style={AppStyle}>
+      <Box className="App" style={AppStyle}>
         <Header />
         <ContentBlock>
           <Route component={Index} path="/" exact />
@@ -37,7 +37,7 @@ function App() {
           <Route component={Album} path="/album" />
         </ContentBlock>
         <Player />
-      </div>
+      </Box>
     </BrowserRouter>
   );
 }

@@ -31,26 +31,33 @@ const LoginButton = styled(Button)({
 });
 
 const ActiveStyle = { color: '#FFFFFF' };
+const LinkStyle = { textDecoration: 'none', color: 'inherit' };
 
 const Header = () => {
   return (
     <>
       <AppBar>
         <HeaderBlock>
-          <NavLink to="/">ESC</NavLink>
+          <NavLink to="/" style={LinkStyle}>
+            ESC
+          </NavLink>
           <HeaderLinks flexGrow={1}>
             <LinkBox>
-              <NavLink to="/artist" activeStyle={ActiveStyle}>
+              <NavLink to="/artist" activeStyle={ActiveStyle} style={LinkStyle}>
                 Artist
               </NavLink>
             </LinkBox>
             <LinkBox>
-              <NavLink to="/album" activeStyle={ActiveStyle}>
+              <NavLink to="/album" activeStyle={ActiveStyle} style={LinkStyle}>
                 Album
               </NavLink>
             </LinkBox>
             <LinkBox>
-              <NavLink to="/playlist" activeStyle={ActiveStyle}>
+              <NavLink
+                to="/playlist"
+                activeStyle={ActiveStyle}
+                style={LinkStyle}
+              >
                 Track
               </NavLink>
             </LinkBox>
