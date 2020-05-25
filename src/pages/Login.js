@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import GoogleLogin from 'react-google-login';
+import { useDispatch } from 'react-redux';
+import { initialUser, userLogin } from '../modules/user';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -26,19 +28,24 @@ const LoginHeader = styled(Typography)({
   letterSpacing: '2px',
 });
 
-const LoginSuccess = (response) => {
-  console.log(response);
-};
-
-const LoginFailure = (response) => {
-  console.log('Failed');
-  console.log(response);
-};
-
 const GOOGLE_CLIENT_ID =
   '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const LoginSuccess = (response) => {
+    dispatch(userLogin(response.getAuthResponse().id_token));
+  };
+
+  const LoginFailure = (response) => {
+    console.log('Failed');
+    console.log(response);
+  };
+
+  useEffect(() => {
+    dispatch(initialUser());
+  });
+
   return (
     <LoginGrid>
       <LoginBox boxShadow={2}>
