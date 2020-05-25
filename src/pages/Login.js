@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
-import LoginMethods from '../components/LoginMethods';
+import GoogleLogin from 'react-google-login';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -26,12 +26,29 @@ const LoginHeader = styled(Typography)({
   letterSpacing: '2px',
 });
 
+const LoginSuccess = (response) => {
+  console.log(response);
+};
+
+const LoginFailure = (response) => {
+  console.log('Failed');
+  console.log(response);
+};
+
+const GOOGLE_CLIENT_ID =
+  '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
+
 const Login = () => {
   return (
     <LoginGrid>
       <LoginBox boxShadow={2}>
         <LoginHeader>ESC</LoginHeader>
-        <LoginMethods />
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText="ESC with Google"
+          onSuccess={LoginSuccess}
+          onFailure={LoginFailure}
+        />
       </LoginBox>
     </LoginGrid>
   );
