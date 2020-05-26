@@ -47,11 +47,6 @@ const Login = ({ history }) => {
   useEffect(() => {
     if (userId) {
       history.push('/');
-      try {
-        localStorage.setItem('userId', JSON.stringify(userId));
-      } catch (e) {
-        console.log('Local Storage Error.');
-      }
     } else {
       dispatch(initialUser());
     }

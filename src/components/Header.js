@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { userLogout } from '../modules/user';
 
 const HeaderBlock = styled(Toolbar)({
   backgroundColor: '#56613d',
@@ -25,17 +27,32 @@ const StyledButton = styled(Button)({
   backgroundColor: '#474261',
   color: '#EEEEEE',
   fontFamily: 'Lato',
-  fontSize: 16,
+  fontSize: '1rem',
   '&:hover': {
     background: '#877FAD',
   },
+});
+
+const LogoutButton = styled(Button)({
+  color: '#EEEEEE',
+  fontWeight: 700,
+  fontFamily: 'Lato',
+  fontSize: '1.3rem',
+  textTransform: 'none',
+  paddingRight: '1rem',
 });
 
 const ActiveStyle = { color: '#FFFFFF' };
 const LinkStyle = { textDecoration: 'none', color: 'inherit' };
 
 const Header = () => {
+  const dispatch = useDispatch();
   const { userId } = useSelector(({ user }) => ({ userId: user.user }));
+
+  const onLogout = useCallback(() => {
+    dispatch(userLogout());
+  }, [dispatch]);
+
   return (
     <>
       <AppBar>
@@ -64,6 +81,7 @@ const Header = () => {
               </NavLink>
             </LinkBox>
           </HeaderLinks>
+          {userId && <LogoutButton onClick={onLogout}>Logout</LogoutButton>}
           <StyledButton>
             {userId ? (
               <NavLink to="/upload" style={LinkStyle}>
