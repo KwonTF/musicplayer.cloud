@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const HeaderBlock = styled(Toolbar)({
   backgroundColor: '#56613d',
@@ -20,7 +21,7 @@ const LinkBox = styled(Box)({
   paddingLeft: '1rem',
 });
 
-const LoginButton = styled(Button)({
+const StyledButton = styled(Button)({
   backgroundColor: '#474261',
   color: '#EEEEEE',
   fontFamily: 'Lato',
@@ -34,6 +35,7 @@ const ActiveStyle = { color: '#FFFFFF' };
 const LinkStyle = { textDecoration: 'none', color: 'inherit' };
 
 const Header = () => {
+  const { userId } = useSelector(({ user }) => ({ userId: user.user }));
   return (
     <>
       <AppBar>
@@ -62,11 +64,17 @@ const Header = () => {
               </NavLink>
             </LinkBox>
           </HeaderLinks>
-          <LoginButton>
-            <NavLink to="/login" style={LinkStyle}>
-              Log In
-            </NavLink>
-          </LoginButton>
+          <StyledButton>
+            {userId ? (
+              <NavLink to="/upload" style={LinkStyle}>
+                Upload
+              </NavLink>
+            ) : (
+              <NavLink to="/login" style={LinkStyle}>
+                Log In
+              </NavLink>
+            )}
+          </StyledButton>
         </HeaderBlock>
       </AppBar>
       <Toolbar />

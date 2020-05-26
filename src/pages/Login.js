@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import GoogleLogin from 'react-google-login';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { initialUser, userLogin } from '../modules/user';
 
 const LoginGrid = styled(Grid)({
@@ -31,8 +32,9 @@ const LoginHeader = styled(Typography)({
 const GOOGLE_CLIENT_ID =
   '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
 
-const Login = () => {
+const Login = ({ history }) => {
   const dispatch = useDispatch();
+  const { userId } = useSelector(({ user }) => ({ userId: user.user }));
   const LoginSuccess = (response) => {
     dispatch(userLogin(response.getAuthResponse().id_token));
   };
@@ -43,8 +45,17 @@ const Login = () => {
   };
 
   useEffect(() => {
-    dispatch(initialUser());
-  });
+    if (userId) {
+      history.push('/');
+      try {
+        localStorage.setItem('userId', JSON.stringify(userId));
+      } catch (e) {
+        console.log('Local Storage Error.');
+      }
+    } else {
+      dispatch(initialUser());
+    }
+  }, [dispatch, history, userId]);
 
   return (
     <LoginGrid>
@@ -59,5 +70,11 @@ const Login = () => {
       </LoginBox>
     </LoginGrid>
   );
+};
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default Login;
