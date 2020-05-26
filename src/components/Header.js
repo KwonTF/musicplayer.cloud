@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import { userLogout } from '../modules/user';
 
 const HeaderBlock = styled(Toolbar)({
