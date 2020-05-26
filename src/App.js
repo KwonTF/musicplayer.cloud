@@ -8,6 +8,7 @@ import Album from './pages/Album';
 import Index from './pages/Index';
 import Header from './components/Header';
 import Player from './components/Player';
+import Upload from './pages/Upload';
 
 const ContentBlock = styled(Container)({
   height: '100%',
@@ -35,6 +36,7 @@ function App() {
           <Route component={Login} path="/login" />
           <Route component={PlayList} path="/playlist" />
           <Route component={Album} path="/album" />
+          <Route component={Upload} path="/upload" />
         </ContentBlock>
         <Player />
       </Box>

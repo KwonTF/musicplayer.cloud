@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
-import LoginMethods from '../components/LoginMethods';
+import GoogleLogin from 'react-google-login';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { initialUser, userLogin } from '../modules/user';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -26,14 +29,47 @@ const LoginHeader = styled(Typography)({
   letterSpacing: '2px',
 });
 
-const Login = () => {
+const GOOGLE_CLIENT_ID =
+  '413749160889-vk1ej3qhsgva4pin3cgvjkidnsni2297.apps.googleusercontent.com';
+
+const Login = ({ history }) => {
+  const dispatch = useDispatch();
+  const { userId } = useSelector(({ user }) => ({ userId: user.user }));
+  const LoginSuccess = (response) => {
+    dispatch(userLogin(response.getAuthResponse().id_token));
+  };
+
+  const LoginFailure = (response) => {
+    console.log('Failed');
+    console.log(response);
+  };
+
+  useEffect(() => {
+    if (userId) {
+      history.push('/');
+    } else {
+      dispatch(initialUser());
+    }
+  }, [dispatch, history, userId]);
+
   return (
     <LoginGrid>
       <LoginBox boxShadow={2}>
         <LoginHeader>ESC</LoginHeader>
-        <LoginMethods />
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText="ESC with Google"
+          onSuccess={LoginSuccess}
+          onFailure={LoginFailure}
+        />
       </LoginBox>
     </LoginGrid>
   );
+};
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default Login;
