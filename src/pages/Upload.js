@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid, styled } from '@material-ui/core';
+import { Grid, styled, Box, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -11,6 +11,15 @@ const UploadGrid = styled(Grid)({
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: '#BBBBBB',
+});
+
+const UploadBox = styled(Box)({
+  display: 'flex',
+  width: '20%',
+  height: '20%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#FEFEFE',
 });
 
 const Upload = ({ history }) => {
@@ -35,15 +44,14 @@ const Upload = ({ history }) => {
 
   return (
     <UploadGrid>
-      Upload
-      <div {...getRootProps()}>
+      <UploadBox {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>Drop the files here ...</p>
+          <Typography>Drop here ...</Typography>
         ) : (
-          <p>Drag drop some files here, or click to select files</p>
+          <Typography>Drop or Click</Typography>
         )}
-      </div>
+      </UploadBox>
     </UploadGrid>
   );
 };
