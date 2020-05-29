@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@material-ui/styles';
 import {
-  Box,
   Card,
   CardActionArea,
   CardMedia,
   CardContent,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
@@ -16,12 +16,13 @@ const TestBlock = styled(Card)({
   flexDirection: 'column',
   backgroundColor: '#FFFFFF',
   position: 'static',
+  width: '200px',
+  height: '245px',
 });
 
 const ActionArea = styled(CardActionArea)({
-  display: 'inline-flex',
+  display: 'flex',
   flexDirection: 'column',
-  flexFlow: 'nowrap',
 });
 
 const CardActionButton = styled(IconButton)({
@@ -36,7 +37,14 @@ const CardActionButton = styled(IconButton)({
   },
 });
 
-const MediaBox = styled(Box)({ height: 200, width: 200, overflow: 'hidden' });
+const MusicNameArea = styled(CardContent)({
+  display: 'flex',
+  padding: 0,
+  height: 45,
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
 
 const MusicCard = ({ imageLink, musicLink }) => {
   const MusicAdd = useCallback(() => {
@@ -52,16 +60,17 @@ const MusicCard = ({ imageLink, musicLink }) => {
         <AddCircleOutlineIcon />
       </CardActionButton>
       <ActionArea onClick={MusicAdd}>
-        <MediaBox>
-          <CardMedia
-            component="img"
-            image={imageLink}
-            alt="Contemplative Reptile"
-            title="MusicName"
-            style={{ width: 'auto' }}
-          />
-        </MediaBox>
-        <CardContent>MusicName</CardContent>
+        <CardMedia
+          component="img"
+          image={imageLink}
+          alt="Contemplative Reptile"
+          title="MusicName"
+          height={200}
+          style={{ width: 200 }}
+        />
+        <MusicNameArea>
+          <Typography>MusicName</Typography>
+        </MusicNameArea>
       </ActionArea>
     </TestBlock>
   );
