@@ -7,12 +7,15 @@ import {
   CardActionArea,
   CardMedia,
   CardContent,
-  CardActions,
-  Button,
+  IconButton,
 } from '@material-ui/core';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const TestBlock = styled(Card)({
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: '#FFFFFF',
+  position: 'static',
 });
 
 const ActionArea = styled(CardActionArea)({
@@ -21,8 +24,16 @@ const ActionArea = styled(CardActionArea)({
   flexFlow: 'nowrap',
 });
 
-const CardActionButton = styled(Button)({
-  fontSize: '0.8rem',
+const CardActionButton = styled(IconButton)({
+  position: 'absolute',
+  zIndex: '1',
+  alignSelf: 'flex-end',
+  padding: 0,
+  backgroundColor: '#FFFFFF44',
+  justifyContent: 'center',
+  '&:hover': {
+    background: '#EEEEEE',
+  },
 });
 
 const MediaBox = styled(Box)({ height: 200, width: 200, overflow: 'hidden' });
@@ -31,17 +42,15 @@ const MusicCard = ({ imageLink, musicLink }) => {
   const MusicAdd = useCallback(() => {
     console.log(musicLink);
   }, [musicLink]);
-
-  const onDelete = useCallback(() => {
-    console.log('Ctrl Alt Del');
-  }, []);
-
-  const onEdit = useCallback(() => {
+  const showDetail = useCallback(() => {
     console.log('Houseplan');
   }, []);
 
   return (
     <TestBlock>
+      <CardActionButton onClick={showDetail}>
+        <AddCircleOutlineIcon />
+      </CardActionButton>
       <ActionArea onClick={MusicAdd}>
         <MediaBox>
           <CardMedia
@@ -54,10 +63,6 @@ const MusicCard = ({ imageLink, musicLink }) => {
         </MediaBox>
         <CardContent>MusicName</CardContent>
       </ActionArea>
-      <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <CardActionButton onClick={onEdit}>Fix</CardActionButton>
-        <CardActionButton onClick={onDelete}>Edit</CardActionButton>
-      </CardActions>
     </TestBlock>
   );
 };
