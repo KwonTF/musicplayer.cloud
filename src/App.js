@@ -12,7 +12,7 @@ import Upload from './pages/Upload';
 
 const ContentBlock = styled(Container)({
   height: '100%',
-  overflowY: 'scroll',
+  overflowY: 'auto',
   paddingLeft: '1%',
   paddingRight: '1%',
 });
