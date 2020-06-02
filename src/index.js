@@ -6,16 +6,17 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import masterReducer from './modules';
-import { userLogin } from './modules/user';
+import { userLogin, userLogout } from './modules/user';
 
 const store = createStore(masterReducer, composeWithDevTools());
 function loadUser() {
   try {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId').slice(1, -1);
     if (!userId) return;
     store.dispatch(userLogin(userId));
   } catch (e) {
     console.log('Local Storage Call Error');
+    store.dispatch(userLogout());
   }
 }
 
