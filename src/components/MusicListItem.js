@@ -16,7 +16,8 @@ const ListBox = styled(Box)({
   paddingLeft: '1em',
 });
 
-const ListItem = ({ index, music }) => {
+const MusicListItem = ({ index, music }) => {
+  console.log(index);
   const dispatch = useDispatch();
   const removeList = useCallback(() => {
     dispatch(removeMusic(index));
@@ -35,7 +36,7 @@ const ListItem = ({ index, music }) => {
   );
 };
 
-ListItem.propTypes = {
+MusicListItem.propTypes = {
   index: PropTypes.number.isRequired,
   music: PropTypes.shape({
     title: PropTypes.string,
@@ -44,8 +45,8 @@ ListItem.propTypes = {
   }),
 };
 
-ListItem.defaultProps = {
+MusicListItem.defaultProps = {
   music: { title: '', artist: '' },
 };
 
-export default ListItem;
+export default MusicListItem;

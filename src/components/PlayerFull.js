@@ -1,15 +1,21 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { styled } from '@material-ui/styles';
 import { Backdrop, Box, Typography, CardMedia } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import PlayerButtons from './PlayerButtons';
-import ListItem from './ListItem';
+import MusicListItem from './MusicListItem';
 
 const PlayerBackDrop = styled(Backdrop)({
   color: '#FFFFFF',
   textShadow: '#000000 2px 2px 2px',
   backgroundColor: '#18206BBB',
+  overflowY: 'auto',
   zIndex: 1,
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  height: 'auto',
+  paddingTop: '6em',
 });
 
 const InfoBox = styled(Box)({
@@ -41,9 +47,8 @@ const PlayerFull = () => {
     open: player.open,
     playList: player.playList,
   }));
-
   return (
-    <PlayerBackDrop open={open} style={{ flexDirection: 'column' }}>
+    <PlayerBackDrop open={open}>
       <Box style={{ display: 'flex' }}>
         <CardMedia
           component="img"
@@ -64,9 +69,11 @@ const PlayerFull = () => {
       </Box>
       {playList
         ? playList.map((music, index) => {
+            console.log(music, index);
             return (
-              // eslint-disable-next-line react/no-array-index-key
-              <ListItem key={index} music={music} index={index} />
+              <>
+                <MusicListItem key={index} music={music} index={index} />
+              </>
             );
           })
         : null}
