@@ -29,11 +29,29 @@ const Upload = ({ history }) => {
 
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.musicplayer.cloud/upload');
+    xhr.setRequestHeader(
+      'authorization',
+      `Bearer ${localStorage.getItem('userId') || ''}`,
+    );
+    const formData = new FormData();
+    acceptedFiles.forEach(file => formData.append('files', file));
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200 || xhr.status === 201) {
+          console.log(xhr.responseText);
+        } else {
+          console.error(xhr.responseText);
+        }
+      }
+    };
+    xhr.send(formData);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: 'audio/*',
+    accept: 'audio/mpeg',
   });
 
   useEffect(() => {
