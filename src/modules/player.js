@@ -26,18 +26,18 @@ export const addMusic = createAction(ADD_MUSIC, (musicId, title, artist) => ({
   title,
   artist,
 }));
-export const removeMusic = createAction(REMOVE_MUSIC, (index) => index);
+export const removeMusic = createAction(REMOVE_MUSIC, index => index);
 
 const player = handleActions(
   {
-    [PLAY_PAUSE_MUSIC]: (state) => {
+    [PLAY_PAUSE_MUSIC]: state => {
       return {
         ...state,
         playing: !state.playing,
       };
     },
 
-    [SKIP_MUSIC]: (state) => {
+    [SKIP_MUSIC]: state => {
       const newList = state.playList;
       newList.shift();
       return {
@@ -46,7 +46,7 @@ const player = handleActions(
       };
     },
 
-    [CHANGE_OPEN]: (state) => {
+    [CHANGE_OPEN]: state => {
       return {
         ...state,
         open: !state.open,
@@ -78,7 +78,7 @@ const player = handleActions(
 
     [INITIAL_PLAYER]: () => initialState,
   },
-  initialState
+  initialState,
 );
 
 export default player;

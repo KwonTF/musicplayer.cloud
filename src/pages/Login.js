@@ -35,11 +35,11 @@ const GOOGLE_CLIENT_ID =
 const Login = ({ history }) => {
   const dispatch = useDispatch();
   const { userId } = useSelector(({ user }) => ({ userId: user.user }));
-  const LoginSuccess = (response) => {
+  const LoginSuccess = response => {
     dispatch(userLogin(response.getAuthResponse().id_token));
   };
 
-  const LoginFailure = (response) => {
+  const LoginFailure = response => {
     console.log('Failed');
     console.log(response);
   };

@@ -27,7 +27,7 @@ const Upload = ({ history }) => {
     userId: user.user,
   }));
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles);
   }, []);
 

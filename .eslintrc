@@ -1,17 +1,22 @@
 {
-  "env": {
-    "node": true,
-    "es6": true,
-    "browser": true
-  },
-  "extends": ["airbnb", "prettier"],
-  "rules": {
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-one-expression-per-line": 0,
-    "react/jsx-props-no-spreading": 0,
-    "comma-dangle": "off",
-    "no-console": "off",
-    "arrow-parens": "off"
-  }
+	"env": {
+		"node": true,
+		"es6": true,
+		"browser": true
+	},
+	"extends": ["airbnb", "prettier"],
+	"rules": {
+		"react/prefer-stateless-function": 0,
+		"react/jsx-filename-extension": 0,
+		"react/jsx-one-expression-per-line": 0,
+		"react/jsx-props-no-spreading": 0,
+		"comma-dangle": "off",
+		"no-console": "off",
+		"arrow-parens": "off"
+	},
+	"ignorePatterns": [
+		"src/serviceWorker.js",
+		"src/setupTests.js",
+		"src/**/*.test.js"
+	]
 }
