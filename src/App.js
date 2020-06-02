@@ -18,10 +18,10 @@ import Header from "./components/Header";
 import Player from "./components/Player";
 
 const ContentBlock = styled(Container)({
-	height: "100%",
-	overflowY: "scroll",
-	paddingLeft: "1%",
-	paddingRight: "1%",
+  height: '100%',
+  overflowY: 'auto',
+  paddingLeft: '1%',
+  paddingRight: '1%',
 });
 
 const AppStyle = {
