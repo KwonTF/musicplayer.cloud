@@ -20,6 +20,11 @@ export const playPauseMusic = createAction(PLAY_PAUSE_MUSIC);
 export const skipMusic = createAction(SKIP_MUSIC);
 export const initialPlayer = createAction(INITIAL_PLAYER);
 export const changeOpen = createAction(CHANGE_OPEN);
+export const addMusic = createAction(ADD_MUSIC, (musicId, title, artist) => ({
+  musicId,
+  title,
+  artist,
+}));
 
 const player = handleActions(
   {
@@ -43,7 +48,19 @@ const player = handleActions(
         open: !state.open,
       };
     },
-    [ADD_MUSIC]: (state, payload) => {},
+    [ADD_MUSIC]: (state, { payload }) => {
+      const newList = state.playList;
+      newList.push({
+        musicId: payload.musicId,
+        title: payload.title,
+        artist: payload.artist,
+      });
+
+      return {
+        ...state,
+        playList: newList,
+      };
+    },
     [INITIAL_PLAYER]: () => initialState,
   },
   initialState

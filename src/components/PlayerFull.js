@@ -70,9 +70,9 @@ const PlayerFull = () => {
         </InfoBox>
       </Box>
       {playList
-        ? playList.map((music) => {
+        ? playList.map((music, index) => {
             return (
-              <ListBox key={music.musicId}>
+              <ListBox key={index + music.musicId}>
                 <Typography>
                   {music.title}-{music.artist}
                 </Typography>
