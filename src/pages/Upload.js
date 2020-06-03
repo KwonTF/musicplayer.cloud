@@ -3,6 +3,7 @@ import { Grid, styled, Box, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import API from '../utils/api';
 
 const UploadGrid = styled(Grid)({
   display: 'flex',
@@ -28,9 +29,8 @@ const Upload = ({ history }) => {
   }));
 
   const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles);
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://api.musicplayer.cloud/upload');
+    xhr.open('POST', `${API.endpoint}/upload`);
     xhr.setRequestHeader(
       'authorization',
       `Bearer ${localStorage.getItem('userId') || ''}`,

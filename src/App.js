@@ -17,6 +17,8 @@ import Upload from './pages/Upload';
 import Header from './components/Header';
 import Player from './components/Player';
 
+import API from './utils/api';
+
 const ContentBlock = styled(Container)({
   height: '100%',
   overflowY: 'auto',
@@ -34,7 +36,7 @@ const AppStyle = {
 
 const cache = new InMemoryCache();
 const httpLink = new HttpLink({
-  uri: 'https://api.musicplayer.cloud/graphql',
+  uri: `${API.endpoint}/graphql`,
 });
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('userId');
