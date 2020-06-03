@@ -6,6 +6,7 @@ const INITIAL_PLAYER = 'player/INITIAL_PLAYER';
 const CHANGE_OPEN = 'player/CHANGE_OPEN';
 const ADD_MUSIC = 'player/ADD_MUSIC';
 const REMOVE_MUSIC = 'player/REMOVE_MUSIC';
+const SET_MUSIC = 'player/SET_MUSIC';
 
 const initialState = {
   playList: [
@@ -13,6 +14,7 @@ const initialState = {
     { musicId: '2', title: 'MIKI', artist: 'NANO!' },
     { musicId: '3', title: 'MIKI', artist: 'NANO!' },
   ],
+  audio: null,
   playing: false,
   open: false,
 };
@@ -26,18 +28,27 @@ export const addMusic = createAction(ADD_MUSIC, (musicId, title, artist) => ({
   title,
   artist,
 }));
-export const removeMusic = createAction(REMOVE_MUSIC, index => index);
+export const removeMusic = createAction(REMOVE_MUSIC, (index) => index);
+export const setMusic = createAction(SET_MUSIC, (url) => url);
 
 const player = handleActions(
   {
-    [PLAY_PAUSE_MUSIC]: state => {
+    [PLAY_PAUSE_MUSIC]: (state) => {
+      if (state.audio) {
+        if (state.playing) {
+          state.audio.pause();
+        } else {
+          state.audio.play();
+        }
+      }
+
       return {
         ...state,
         playing: !state.playing,
       };
     },
 
-    [SKIP_MUSIC]: state => {
+    [SKIP_MUSIC]: (state) => {
       const newList = state.playList;
       newList.shift();
       return {
@@ -46,7 +57,7 @@ const player = handleActions(
       };
     },
 
-    [CHANGE_OPEN]: state => {
+    [CHANGE_OPEN]: (state) => {
       return {
         ...state,
         open: !state.open,
@@ -75,7 +86,10 @@ const player = handleActions(
         playList: newList,
       };
     },
-
+    [SET_MUSIC]: (state, { payload }) => {
+      const audio = new Audio(payload);
+      return { ...state, audio };
+    },
     [INITIAL_PLAYER]: () => initialState,
   },
   initialState,
