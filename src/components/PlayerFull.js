@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { styled } from '@material-ui/styles';
 import { Backdrop, Box, Typography, CardMedia } from '@material-ui/core';
@@ -39,29 +38,35 @@ const SubText = styled(Typography)({
   color: '#EEEEEE',
 });
 
-const imageLink =
-  'https://w.namu.la/s/2b00f887323e43bff3a8fc205696d6ea47b635a8b311988ebbd959ebb19491ee33a4cbd966724fb008bce7b1d0df861a9bc9047c4564d0833ff68e7225bed47904299de824e55070a009c101ab6abb6f539c49bf1afbd21937cb607388a5fc3d';
-
 const PlayerFull = () => {
-  const { open, playList } = useSelector(({ player }) => ({
+  const { open, playList, nowPlaying } = useSelector(({ player }) => ({
     open: player.open,
     playList: player.playList,
+    nowPlaying: player.nowPlaying,
   }));
   return (
     <PlayerBackDrop open={open}>
       <Box style={{ display: 'flex' }}>
         <CardMedia
           component="img"
-          image={imageLink}
-          alt="Contemplative Reptile"
-          title="MusicName"
+          image={
+            nowPlaying.imageLink
+              ? nowPlaying.imageLink
+              : 'https://miel.dev/kwontf/dame.png'
+          }
+          alt={nowPlaying.title}
+          title={nowPlaying.title}
           height={320}
           style={{ width: 320 }}
         />
         <InfoBox>
-          <TitleText>Music Name</TitleText>
-          <SubText>Artitst Name</SubText>
-          <SubText>Album Name</SubText>
+          <TitleText>
+            {nowPlaying.title ? nowPlaying.title : 'No Title'}
+          </TitleText>
+          <SubText>
+            {nowPlaying.artist ? nowPlaying.artist : 'No Artist'}
+          </SubText>
+          <SubText>{nowPlaying.album ? nowPlaying.album : 'No Album'}</SubText>
           <Box>
             <PlayerButtons />
           </Box>
@@ -69,10 +74,9 @@ const PlayerFull = () => {
       </Box>
       {playList
         ? playList.map((music, index) => {
-            console.log(music, index);
             return (
               <>
-                <MusicListItem key={index} music={music} index={index} />
+                <MusicListItem music={music} index={index} />
               </>
             );
           })

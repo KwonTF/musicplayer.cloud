@@ -7,12 +7,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import { IconButton } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  playPauseMusic,
-  skipMusic,
-  changeOpen,
-  setMusic,
-} from '../utils/player';
+import { playPauseMusic, skipMusic, changeOpen } from '../utils/player';
 
 const IconStyle = styled(IconButton)({
   color: '#FFFFFF',
@@ -31,11 +26,7 @@ const PlayerButtons = () => {
 
   const SkipMusic = useCallback(() => {
     dispatch(skipMusic());
-    dispatch(
-      setMusic(
-        'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
-      ),
-    );
+    dispatch(playPauseMusic());
   }, [dispatch]);
 
   const ChangeBackDrop = useCallback(() => {

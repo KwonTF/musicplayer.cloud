@@ -6,14 +6,10 @@ const INITIAL_PLAYER = 'player/INITIAL_PLAYER';
 const CHANGE_OPEN = 'player/CHANGE_OPEN';
 const ADD_MUSIC = 'player/ADD_MUSIC';
 const REMOVE_MUSIC = 'player/REMOVE_MUSIC';
-const SET_MUSIC = 'player/SET_MUSIC';
 
 const initialState = {
-  playList: [
-    { musicId: '1', title: 'MIKI', artist: 'NANO!' },
-    { musicId: '2', title: 'MIKI', artist: 'NANO!' },
-    { musicId: '3', title: 'MIKI', artist: 'NANO!' },
-  ],
+  playList: [],
+  nowPlaying: null,
   audio: null,
   playing: false,
   open: false,
@@ -23,13 +19,8 @@ export const playPauseMusic = createAction(PLAY_PAUSE_MUSIC);
 export const skipMusic = createAction(SKIP_MUSIC);
 export const initialPlayer = createAction(INITIAL_PLAYER);
 export const changeOpen = createAction(CHANGE_OPEN);
-export const addMusic = createAction(ADD_MUSIC, (musicId, title, artist) => ({
-  musicId,
-  title,
-  artist,
-}));
+export const addMusic = createAction(ADD_MUSIC, (music) => music);
 export const removeMusic = createAction(REMOVE_MUSIC, (index) => index);
-export const setMusic = createAction(SET_MUSIC, (url) => url);
 
 const player = handleActions(
   {
@@ -49,11 +40,31 @@ const player = handleActions(
     },
 
     [SKIP_MUSIC]: (state) => {
+      if (state.audio) {
+        state.audio.pause();
+      }
+
       const newList = state.playList;
-      newList.shift();
+      const nextMusic = newList.shift();
+
+      if (nextMusic) {
+        const audio = new Audio(nextMusic.audioLink);
+        return {
+          ...state,
+          nowPlaying: nextMusic,
+          playList: newList,
+          playing: false,
+          audio,
+        };
+      }
+
       return {
         ...state,
+        nowPlaying: nextMusic,
         playList: newList,
+        playing: false,
+        audio: null,
+        open: false,
       };
     },
 
@@ -65,13 +76,13 @@ const player = handleActions(
     },
 
     [ADD_MUSIC]: (state, { payload }) => {
-      const newList = state.playList;
-      newList.push({
-        musicId: payload.musicId,
-        title: payload.title,
-        artist: payload.artist,
-      });
+      if (!state.nowPlaying) {
+        const audio = new Audio(payload.audioLink);
+        return { ...state, nowPlaying: payload, playing: false, audio };
+      }
 
+      const newList = state.playList;
+      newList.push(payload);
       return {
         ...state,
         playList: newList,
@@ -85,10 +96,6 @@ const player = handleActions(
         ...state,
         playList: newList,
       };
-    },
-    [SET_MUSIC]: (state, { payload }) => {
-      const audio = new Audio(payload);
-      return { ...state, audio };
     },
     [INITIAL_PLAYER]: () => initialState,
   },
