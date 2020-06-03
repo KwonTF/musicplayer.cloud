@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import masterReducer from './modules';
-import { userLogin, userLogout } from './modules/user';
+import masterReducer from './utils';
+import { userLogin, userLogout } from './utils/user';
 
 const store = createStore(masterReducer, composeWithDevTools());
 function loadUser() {

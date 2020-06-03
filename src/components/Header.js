@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { userLogout } from '../modules/user';
+import { userLogout } from '../utils/user';
 
 const HeaderBlock = styled(Toolbar)({
   backgroundColor: '#56613d',

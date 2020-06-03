@@ -10,16 +10,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { useDispatch } from 'react-redux';
-import { addMusic, changeOpen } from '../modules/player';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMusic, playPauseMusic } from '../utils/player';
 
-const TestBlock = styled(Card)({
+const MusicBlock = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#FFFFFF',
   position: 'static',
   width: '200px',
   height: '245px',
+  margin: '1em',
 });
 
 const ActionArea = styled(CardActionArea)({
@@ -48,45 +49,69 @@ const MusicNameArea = styled(CardContent)({
   justifyContent: 'center',
 });
 
-const MusicCard = ({ imageLink }) => {
+const MusicCard = ({ music }) => {
   const dispatch = useDispatch();
+  const { nowPlaying } = useSelector(({ player }) => ({
+    nowPlaying: player.nowPlaying,
+  }));
+
   const MusicAdd = useCallback(() => {
-    dispatch(addMusic('765', 'Dye the sky', 'Lipps'));
-    dispatch(changeOpen());
-  }, [dispatch]);
+    if (nowPlaying) {
+      dispatch(addMusic(music));
+    } else {
+      dispatch(addMusic(music));
+      dispatch(playPauseMusic());
+    }
+  }, [dispatch, music, nowPlaying]);
 
   const showDetail = useCallback(() => {
     console.log('Houseplan');
   }, []);
 
   return (
-    <TestBlock>
+    <MusicBlock>
       <CardActionButton onClick={showDetail}>
         <AddCircleOutlineIcon />
       </CardActionButton>
       <ActionArea onClick={MusicAdd}>
         <CardMedia
           component="img"
-          image={imageLink}
-          alt="Contemplative Reptile"
-          title="MusicName"
+          image={
+            music.imageLink
+              ? music.imageLink
+              : 'https://miel.dev/kwontf/dame.png'
+          }
+          alt={music.title}
+          title={music.title}
           height={200}
           style={{ width: 200 }}
         />
         <MusicNameArea>
-          <Typography>MusicName</Typography>
+          <Typography>{music.title}</Typography>
         </MusicNameArea>
       </ActionArea>
-    </TestBlock>
+    </MusicBlock>
   );
 };
 
 MusicCard.propTypes = {
-  imageLink: PropTypes.string,
+  music: PropTypes.shape({
+    musicId: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    artist: PropTypes.string,
+    album: PropTypes.string,
+    imageLink: PropTypes.string,
+    audioLink: PropTypes.string,
+  }),
 };
 
 MusicCard.defaultProps = {
-  imageLink:
-    'https://w.namu.la/s/2b00f887323e43bff3a8fc205696d6ea47b635a8b311988ebbd959ebb19491ee33a4cbd966724fb008bce7b1d0df861a9bc9047c4564d0833ff68e7225bed47904299de824e55070a009c101ab6abb6f539c49bf1afbd21937cb607388a5fc3d',
+  music: {
+    title: '',
+    artist: '',
+    album: '',
+    imageLink: 'https://miel.dev/kwontf/dame.png',
+    audioLink: '',
+  },
 };
 export default MusicCard;

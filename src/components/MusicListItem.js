@@ -4,7 +4,7 @@ import { styled } from '@material-ui/styles';
 import { Box, IconButton, Typography } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types';
-import { removeMusic } from '../modules/player';
+import { removeMusic } from '../utils/player';
 
 const ListBox = styled(Box)({
   display: 'flex',
@@ -17,7 +17,6 @@ const ListBox = styled(Box)({
 });
 
 const MusicListItem = ({ index, music }) => {
-  console.log(index);
   const dispatch = useDispatch();
   const removeList = useCallback(() => {
     dispatch(removeMusic(index));
@@ -39,14 +38,23 @@ const MusicListItem = ({ index, music }) => {
 MusicListItem.propTypes = {
   index: PropTypes.number.isRequired,
   music: PropTypes.shape({
+    musicId: PropTypes.string.isRequired,
     title: PropTypes.string,
     artist: PropTypes.string,
-    musicId: PropTypes.string,
+    album: PropTypes.string,
+    imageLink: PropTypes.string,
+    audioLink: PropTypes.string,
   }),
 };
 
 MusicListItem.defaultProps = {
-  music: { title: '', artist: '' },
+  music: {
+    title: '',
+    artist: '',
+    album: '',
+    imageLink: 'https://miel.dev/kwontf/dame.png',
+    audioLink: '',
+  },
 };
 
 export default MusicListItem;
