@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { useDispatch } from 'react-redux';
-import { addMusic, changeOpen } from '../modules/player';
+import { addMusic, changeOpen } from '../utils/player';
 
 const TestBlock = styled(Card)({
   display: 'flex',

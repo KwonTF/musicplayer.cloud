@@ -4,7 +4,7 @@ import { styled } from '@material-ui/styles';
 import { Box, IconButton, Typography } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types';
-import { removeMusic } from '../modules/player';
+import { removeMusic } from '../utils/player';
 
 const ListBox = styled(Box)({
   display: 'flex',

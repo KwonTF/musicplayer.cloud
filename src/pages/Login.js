@@ -4,7 +4,7 @@ import { styled } from '@material-ui/styles';
 import GoogleLogin from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { initialUser, userLogin } from '../modules/user';
+import { initialUser, userLogin } from '../utils/user';
 
 const LoginGrid = styled(Grid)({
   display: 'flex',
@@ -35,11 +35,11 @@ const GOOGLE_CLIENT_ID =
 const Login = ({ history }) => {
   const dispatch = useDispatch();
   const { userId } = useSelector(({ user }) => ({ userId: user.user }));
-  const LoginSuccess = response => {
+  const LoginSuccess = (response) => {
     dispatch(userLogin(response.getAuthResponse().id_token));
   };
 
-  const LoginFailure = response => {
+  const LoginFailure = (response) => {
     console.log('Failed');
     console.log(response);
   };

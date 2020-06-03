@@ -12,7 +12,7 @@ import {
   skipMusic,
   changeOpen,
   setMusic,
-} from '../modules/player';
+} from '../utils/player';
 
 const IconStyle = styled(IconButton)({
   color: '#FFFFFF',

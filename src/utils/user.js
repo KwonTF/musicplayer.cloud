@@ -8,7 +8,7 @@ const initialState = {
   user: '',
 };
 
-export const userLogin = createAction(USER_LOGIN, userId => userId);
+export const userLogin = createAction(USER_LOGIN, (userId) => userId);
 export const userLogout = createAction(USER_LOGOUT);
 export const initialUser = createAction(INITIAL_USER);
 
