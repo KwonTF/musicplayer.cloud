@@ -11,9 +11,16 @@ const ALBUM_QUERY = gql`
 `;
 
 const Album = () => {
-  const query = useQuery(ALBUM_QUERY);
-  console.log(query);
-  return <p>asdf</p>;
+  const { loading, data } = useQuery(ALBUM_QUERY);
+  console.log(data);
+  if (loading) return 'Loading...';
+  return (
+    <div>
+      {data.albums.map((album) => (
+        <p key={album.title}>{album.title}</p>
+      ))}
+    </div>
+  );
 };
 
 export default Album;

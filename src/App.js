@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled, Container, Box } from '@material-ui/core';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 
 import Artist from './pages/Artist';
 import PlayList from './pages/PlayList';
@@ -44,11 +44,13 @@ function App() {
         <Box className="App" style={AppStyle}>
           <Header />
           <ContentBlock>
-            <Route component={Index} path="/" exact />
-            <PrivateRoute component={Artist} path="/artist" />
-            <PrivateRoute component={PlayList} path="/playlist" />
-            <PrivateRoute component={Album} path="/album" />
-            <PrivateRoute component={Upload} path="/upload" />
+            <Switch>
+              <Route component={Index} path="/" exact />
+              <PrivateRoute component={Artist} path="/artist" />
+              <PrivateRoute component={PlayList} path="/playlist" />
+              <PrivateRoute component={Album} path="/album" />
+              <PrivateRoute component={Upload} path="/upload" />
+            </Switch>
           </ContentBlock>
           <Player />
         </Box>
