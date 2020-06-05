@@ -1,9 +1,10 @@
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, styled, Box, Typography } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import React, { useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+
 import API from '../utils/api';
+import { useAuth0 } from '../utils/auth0';
 
 const UploadGrid = styled(Grid)({
   display: 'flex',
@@ -23,42 +24,46 @@ const UploadBox = styled(Box)({
   backgroundColor: '#FEFEFE',
 });
 
-const Upload = ({ history }) => {
-  const { userId } = useSelector(({ user }) => ({
-    userId: user.user,
-  }));
-
-  const onDrop = useCallback(acceptedFiles => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', `${API.endpoint}/upload`);
-    xhr.setRequestHeader(
-      'authorization',
-      `Bearer ${localStorage.getItem('userId') || ''}`,
-    );
-    const formData = new FormData();
-    acceptedFiles.forEach(file => formData.append('files', file));
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200 || xhr.status === 201) {
-          console.log(xhr.responseText);
-        } else {
-          console.error(xhr.responseText);
-        }
+const Upload = () => {
+  const { getTokenSilently, isAuthenticated } = useAuth0();
+  const [token, setToken] = useState('');
+  useEffect(() => {
+    const getToken = async () => {
+      if (isAuthenticated) {
+        const aToken = await getTokenSilently();
+        setToken(aToken);
+      } else {
+        setToken('');
       }
     };
-    xhr.send(formData);
-  }, []);
+    getToken();
+  }, [isAuthenticated, getTokenSilently]);
+
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${API.endpoint}/upload`);
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      const formData = new FormData();
+      acceptedFiles.forEach((file) => formData.append('files', file));
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200 || xhr.status === 201) {
+            console.log(xhr.responseText);
+          } else {
+            console.error(xhr.responseText);
+          }
+        }
+      };
+      xhr.send(formData);
+    },
+    [token],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: 'audio/mpeg',
   });
-
-  useEffect(() => {
-    if (!userId) {
-      history.push('/');
-    }
-  }, [history, userId]);
 
   return (
     <UploadGrid>

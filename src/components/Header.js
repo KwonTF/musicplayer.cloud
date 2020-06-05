@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
-import { userLogout } from '../utils/user';
+import { useAuth0 } from '../utils/auth0';
 
 const HeaderBlock = styled(Toolbar)({
   backgroundColor: '#56613d',
@@ -45,53 +44,61 @@ const ActiveStyle = { color: '#FFFFFF' };
 const LinkStyle = { textDecoration: 'none', color: 'inherit' };
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const { userId } = useSelector(({ user }) => ({ userId: user.user }));
-
-  const onLogout = useCallback(() => {
-    dispatch(userLogout());
-  }, [dispatch]);
-
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   return (
     <>
       <AppBar>
         <HeaderBlock>
           <NavLink to="/" style={LinkStyle}>
-            ESC
+            MusicPlayer.Cloud
           </NavLink>
-          <HeaderLinks flexGrow={1}>
-            <LinkBox>
-              <NavLink to="/artist" activeStyle={ActiveStyle} style={LinkStyle}>
-                Artist
-              </NavLink>
-            </LinkBox>
-            <LinkBox>
-              <NavLink to="/album" activeStyle={ActiveStyle} style={LinkStyle}>
-                Album
-              </NavLink>
-            </LinkBox>
-            <LinkBox>
-              <NavLink
-                to="/playlist"
-                activeStyle={ActiveStyle}
-                style={LinkStyle}
-              >
-                Track
-              </NavLink>
-            </LinkBox>
-          </HeaderLinks>
-          {userId && <LogoutButton onClick={onLogout}>Logout</LogoutButton>}
-          <StyledButton>
-            {userId ? (
-              <NavLink to="/upload" style={LinkStyle}>
-                Upload
-              </NavLink>
-            ) : (
-              <NavLink to="/login" style={LinkStyle}>
+
+          {isAuthenticated ? (
+            <>
+              <HeaderLinks flexGrow={1}>
+                <LinkBox>
+                  <NavLink
+                    to="/artist"
+                    activeStyle={ActiveStyle}
+                    style={LinkStyle}
+                  >
+                    Artist
+                  </NavLink>
+                </LinkBox>
+                <LinkBox>
+                  <NavLink
+                    to="/album"
+                    activeStyle={ActiveStyle}
+                    style={LinkStyle}
+                  >
+                    Album
+                  </NavLink>
+                </LinkBox>
+                <LinkBox>
+                  <NavLink
+                    to="/playlist"
+                    activeStyle={ActiveStyle}
+                    style={LinkStyle}
+                  >
+                    Track
+                  </NavLink>
+                </LinkBox>
+              </HeaderLinks>
+              <LogoutButton onClick={() => logout()}>Logout</LogoutButton>
+              <StyledButton>
+                <NavLink to="/upload" style={LinkStyle}>
+                  Upload
+                </NavLink>
+              </StyledButton>
+            </>
+          ) : (
+            <>
+              <HeaderLinks flexGrow={1} />
+              <StyledButton onClick={() => loginWithRedirect()}>
                 Log In
-              </NavLink>
-            )}
-          </StyledButton>
+              </StyledButton>
+            </>
+          )}
         </HeaderBlock>
       </AppBar>
       <Toolbar />

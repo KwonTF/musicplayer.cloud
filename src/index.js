@@ -5,26 +5,32 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
 import masterReducer from './utils';
-import { userLogin, userLogout } from './utils/user';
+import { Auth0Provider } from './utils/auth0';
+import history from './utils/history';
 
 const store = createStore(masterReducer, composeWithDevTools());
-function loadUser() {
-  try {
-    const userId = localStorage.getItem('userId').slice(1, -1);
-    if (!userId) return;
-    store.dispatch(userLogin(userId));
-  } catch (e) {
-    console.log('Local Storage Call Error');
-    store.dispatch(userLogout());
-  }
-}
+const onRedirectCallback = (appState) => {
+  history.push(
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname,
+  );
+};
 
-loadUser();
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Auth0Provider
+    domain="niceb5y.auth0.com"
+    client_id="Mxc9wJ3me4RNocER4EuAjjJeptBnMtWH"
+    audience="https://api.musicplayer.cloud/"
+    redirect_uri={window.location.origin}
+    onRedirectCallback={onRedirectCallback}
+  >
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Auth0Provider>,
   document.getElementById('root'),
 );
 
