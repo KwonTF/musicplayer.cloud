@@ -21,8 +21,8 @@ const onRedirectCallback = (appState) => {
 
 ReactDOM.render(
   <Auth0Provider
-    domain="niceb5y.auth0.com"
-    client_id="Mxc9wJ3me4RNocER4EuAjjJeptBnMtWH"
+    domain="musicplayercloud.auth0.com"
+    client_id="OwRkj8nn0lHM8TqfGNQdqqZTvocVex98"
     audience="https://api.musicplayer.cloud/"
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}

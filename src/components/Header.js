@@ -84,7 +84,11 @@ const Header = () => {
                   </NavLink>
                 </LinkBox>
               </HeaderLinks>
-              <LogoutButton onClick={() => logout()}>Logout</LogoutButton>
+              <LogoutButton
+                onClick={() => logout({ returnTo: window.location.origin })}
+              >
+                Logout
+              </LogoutButton>
               <StyledButton>
                 <NavLink to="/upload" style={LinkStyle}>
                   Upload
