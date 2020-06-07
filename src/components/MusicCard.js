@@ -20,7 +20,8 @@ const MusicBlock = styled(Card)({
   position: 'static',
   width: '200px',
   height: '245px',
-  margin: '1em',
+  marginRight: '1em',
+  marginTop: '1em',
 });
 
 const ActionArea = styled(CardActionArea)({
