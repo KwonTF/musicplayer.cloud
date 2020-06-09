@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 import { useAuth0 } from './utils/auth0';
 import history from './utils/history';
+import Editor from './components/Editor';
 
 const ContentBlock = styled(Container)({
   height: '100%',
@@ -52,6 +53,7 @@ function App() {
               <PrivateRoute component={Upload} path="/upload" />
             </Switch>
           </ContentBlock>
+          <Editor />
           <Player />
         </Box>
       </Router>

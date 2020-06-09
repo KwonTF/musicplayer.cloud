@@ -12,6 +12,7 @@ import {
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMusic, playPauseMusic } from '../utils/player';
+import { setTrack, openTrack } from '../utils/editor';
 
 const MusicBlock = styled(Card)({
   display: 'flex',
@@ -67,7 +68,9 @@ const MusicCard = ({ music }) => {
 
   const showDetail = useCallback(() => {
     console.log('Houseplan');
-  }, []);
+    dispatch(setTrack(music.title, music.artist, 1, music.imageLink));
+    dispatch(openTrack());
+  }, [dispatch, music]);
 
   return (
     <MusicBlock>
