@@ -6,6 +6,7 @@ const INITIAL_PLAYER = 'player/INITIAL_PLAYER';
 const CHANGE_OPEN = 'player/CHANGE_OPEN';
 const ADD_MUSIC = 'player/ADD_MUSIC';
 const REMOVE_MUSIC = 'player/REMOVE_MUSIC';
+const MUSIC_EDITED = 'player/MUSIC_EDITED';
 
 const initialState = {
   playList: [],
@@ -21,6 +22,10 @@ export const initialPlayer = createAction(INITIAL_PLAYER);
 export const changeOpen = createAction(CHANGE_OPEN);
 export const addMusic = createAction(ADD_MUSIC, (music) => music);
 export const removeMusic = createAction(REMOVE_MUSIC, (index) => index);
+export const musicEdited = createAction(
+  MUSIC_EDITED,
+  (musicId, title, artist, track) => ({ musicId, title, artist, track }),
+);
 
 const player = handleActions(
   {
@@ -96,6 +101,26 @@ const player = handleActions(
         ...state,
         playList: newList,
       };
+    },
+    [MUSIC_EDITED]: (state, { payload }) => {
+      const newPlayList = state.playList.map((musicItem) => {
+        if (payload.musicId === musicItem.musicId) {
+          return {
+            ...musicItem,
+            title: payload.title,
+            artist: payload.artist,
+            track: parseInt(payload.track, 10),
+          };
+        }
+        return musicItem;
+      });
+      const editedPlaying = state.nowPlaying;
+      if (state.nowPlaying.musicId === payload.musicId) {
+        editedPlaying.title = payload.title;
+        editedPlaying.artist = payload.artist;
+        editedPlaying.track = payload.track;
+      }
+      return { ...state, playList: newPlayList, nowPlaying: editedPlaying };
     },
     [INITIAL_PLAYER]: () => initialState,
   },
