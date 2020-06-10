@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { openTrack, onChangeField, changeEdit } from '../utils/editor';
+import { editMusic } from '../utils/music';
+import { musicEdited } from '../utils/player';
 
 const TrackBackDrop = styled(Backdrop)({ display: 'flex', zIndex: 1 });
 const useStyles = makeStyles(() => ({
@@ -42,6 +44,7 @@ const TrackEditor = () => {
     trackNumber,
     trackCoverLink,
     editing,
+    targetId,
   } = useSelector(({ editor }) => ({
     isTrackOpened: editor.isTrackOpened,
     trackName: editor.trackName,
@@ -49,6 +52,7 @@ const TrackEditor = () => {
     trackNumber: editor.trackNumber,
     trackCoverLink: editor.trackCoverLink,
     editing: editor.editing,
+    targetId: editor.targetId,
   }));
 
   const closeEditor = useCallback(() => {
@@ -56,8 +60,12 @@ const TrackEditor = () => {
   }, [dispatch]);
 
   const startEditing = useCallback(() => {
+    if (editing) {
+      dispatch(editMusic(targetId, trackName, trackArtist, trackNumber));
+      dispatch(musicEdited(targetId, trackName, trackArtist, trackNumber));
+    }
     dispatch(changeEdit());
-  }, [dispatch]);
+  }, [targetId, trackName, trackArtist, trackNumber, editing, dispatch]);
 
   const onChangeEditor = useCallback(
     (e) => {

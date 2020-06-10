@@ -67,8 +67,15 @@ const MusicCard = ({ music }) => {
   }, [dispatch, music, nowPlaying]);
 
   const showDetail = useCallback(() => {
-    console.log('Houseplan');
-    dispatch(setTrack(music.title, music.artist, 1, music.imageLink));
+    dispatch(
+      setTrack(
+        music.title,
+        music.artist,
+        music.track || 0,
+        music.imageLink,
+        music.musicId,
+      ),
+    );
     dispatch(openTrack());
   }, [dispatch, music]);
 
@@ -106,6 +113,7 @@ MusicCard.propTypes = {
     album: PropTypes.string,
     imageLink: PropTypes.string,
     audioLink: PropTypes.string,
+    track: PropTypes.number,
   }),
 };
 

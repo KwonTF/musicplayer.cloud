@@ -18,6 +18,7 @@ const initialState = {
   trackNumber: 0,
   trackCoverLink: '',
   editing: false,
+  targetId: '',
 };
 
 export const openTrack = createAction(OPEN_TRACK);
@@ -30,11 +31,12 @@ export const onChangeField = createAction(
 
 export const setTrack = createAction(
   SET_TRACK,
-  (trackName, trackArtist, trackNumber, trackCoverLink) => ({
+  (trackName, trackArtist, trackNumber, trackCoverLink, targetId) => ({
     trackName,
     trackArtist,
     trackNumber,
     trackCoverLink,
+    targetId,
   }),
 );
 
@@ -84,6 +86,7 @@ const editor = handleActions(
         trackArtist: payload.trackArtist,
         trackNumber: payload.trackNumber,
         trackCoverLink: payload.trackCoverLink,
+        targetId: payload.targetId,
       };
     },
     [ON_CHANGE_FIELD]: (state, { payload }) => {

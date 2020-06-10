@@ -3,6 +3,7 @@ import { createAction, handleActions } from 'redux-actions';
 const SET_MUSICS = 'music/SET_MUSICS';
 const ADD_MUSIC = 'music/ADD_MUSIC';
 const INIT_MUSICS = 'music/INIT_MUSICS';
+const EDIT_MUSIC = 'music/EDIT_MUSIC';
 
 const initialState = {
   musics: [
@@ -28,6 +29,10 @@ const initialState = {
 export const setMusics = createAction(SET_MUSICS, (musics) => musics);
 export const addMusic = createAction(ADD_MUSIC, (music) => music);
 export const initMusics = createAction(INIT_MUSICS);
+export const editMusic = createAction(
+  EDIT_MUSIC,
+  (musicId, title, artist, track) => ({ musicId, title, artist, track }),
+);
 
 const music = handleActions(
   {
@@ -42,6 +47,22 @@ const music = handleActions(
       const newList = state.musics;
       newList.push(payload);
       return { ...state, musics: newList };
+    },
+
+    [EDIT_MUSIC]: (state, { payload }) => {
+      const newMusics = state.musics.map((musicItem) => {
+        if (payload.musicId === musicItem.musicId) {
+          return {
+            ...musicItem,
+            title: payload.title,
+            artist: payload.artist,
+            track: parseInt(payload.track, 10),
+          };
+        }
+        return musicItem;
+      });
+
+      return { ...state, musics: newMusics };
     },
   },
   initialState,
