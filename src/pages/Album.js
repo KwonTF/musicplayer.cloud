@@ -29,7 +29,9 @@ const SortedBox = styled(Box)({
 });
 
 const Album = () => {
-  const { loading, data } = useQuery(ALBUM_QUERY);
+  // const { loading, data } = useQuery(ALBUM_QUERY);
+  const { loading, data, refetch } = useQuery(ALBUM_QUERY);
+  refetch();
   const musics = data
     ? data.albums
         .map((album) =>
