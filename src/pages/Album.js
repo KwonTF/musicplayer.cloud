@@ -1,6 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { styled } from '@material-ui/styles';
+import { Box } from '@material-ui/core';
 import MusicViewer from '../components/MusicViewer';
 
 const ALBUM_QUERY = gql`
@@ -21,9 +23,13 @@ const ALBUM_QUERY = gql`
   }
 `;
 
+const SortedBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
 const Album = () => {
   const { loading, data } = useQuery(ALBUM_QUERY);
-
   const musics = data
     ? data.albums
         .map((album) =>
@@ -44,7 +50,38 @@ const Album = () => {
   console.log(musics);
 
   if (loading) return 'Loading...';
-  return <MusicViewer musics={musics} />;
+  if (data) {
+    const albumMusics = data.albums.map((albumItem) => ({
+      albumId: albumItem.albumId,
+      title: albumItem.title,
+      tracks: albumItem.tracks.map((track) => ({
+        ...track,
+        musicId: track.trackId,
+        audioLink: track.url,
+        imageLink: albumItem.cover,
+        track: parseInt(track.trackNumber, 10),
+      })),
+    }));
+    return (
+      <>
+        {albumMusics ? (
+          <SortedBox>
+            {albumMusics.map((album) => (
+              <MusicViewer
+                key={album.albumId}
+                title={album.title}
+                musics={album.tracks}
+              />
+            ))}
+          </SortedBox>
+        ) : (
+          <>No Musics!</>
+        )}
+      </>
+    );
+  }
+
+  return <>No Musics!</>;
 };
 
 export default Album;
