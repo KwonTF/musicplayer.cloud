@@ -2,9 +2,10 @@ import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, styled, Box, Typography } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
-
+import { useDispatch } from 'react-redux';
 import API from '../utils/api';
 import { useAuth0 } from '../utils/auth0';
+import { musicUploaded } from '../utils/music';
 
 const UploadGrid = styled(Grid)({
   display: 'flex',
@@ -24,9 +25,11 @@ const UploadBox = styled(Box)({
   backgroundColor: '#FEFEFE',
 });
 
-const Upload = () => {
+const Upload = ({ history }) => {
   const { getTokenSilently, isAuthenticated } = useAuth0();
   const [token, setToken] = useState('');
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const getToken = async () => {
       if (isAuthenticated) {
@@ -50,6 +53,8 @@ const Upload = () => {
         if (xhr.readyState === xhr.DONE) {
           if (xhr.status === 200 || xhr.status === 201) {
             console.log(xhr.responseText);
+            dispatch(musicUploaded());
+            history.push('/');
           } else {
             console.error(xhr.responseText);
           }
@@ -57,7 +62,7 @@ const Upload = () => {
       };
       xhr.send(formData);
     },
-    [token],
+    [dispatch, history, token],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

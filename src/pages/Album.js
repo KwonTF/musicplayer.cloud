@@ -3,7 +3,9 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { styled } from '@material-ui/styles';
 import { Box } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 import MusicViewer from '../components/MusicViewer';
+import { musicUploaded } from '../utils/music';
 
 const ALBUM_QUERY = gql`
   {
@@ -30,9 +32,16 @@ const SortedBox = styled(Box)({
 
 const Album = () => {
   // const { loading, data } = useQuery(ALBUM_QUERY);
+  const dispatch = useDispatch();
+  const { isMusicUploaded } = useSelector(({ music }) => ({
+    isMusicUploaded: music.uploaded,
+  }));
   const { loading, data, refetch } = useQuery(ALBUM_QUERY);
-  refetch();
-  const musics = data
+  if (isMusicUploaded) {
+    refetch();
+    dispatch(musicUploaded());
+  }
+  /* const musics = data
     ? data.albums
         .map((album) =>
           album.tracks.map((track) => ({
@@ -49,7 +58,7 @@ const Album = () => {
           [],
         )
     : [];
-  console.log(musics);
+  // console.log(musics); */
 
   if (loading) return 'Loading...';
   if (data) {
@@ -61,6 +70,7 @@ const Album = () => {
         musicId: track.trackId,
         audioLink: track.url,
         imageLink: albumItem.cover,
+        album: albumItem.title,
         track: parseInt(track.trackNumber, 10),
       })),
     }));
