@@ -18,7 +18,7 @@ import history from './utils/history';
 import Editor from './components/Editor';
 
 const ContentBlock = styled(Container)({
-  height: '100%',
+  height: '90vh',
   overflowY: 'auto',
   paddingLeft: '1%',
   paddingRight: '1%',

@@ -76,7 +76,7 @@ const Album = () => {
     }));
     return (
       <>
-        {albumMusics ? (
+        {albumMusics.length !== 0 ? (
           <SortedBox>
             {albumMusics.map((album) => (
               <MusicViewer
