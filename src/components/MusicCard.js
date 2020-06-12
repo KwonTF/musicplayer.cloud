@@ -18,7 +18,7 @@ const MusicBlock = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#FFFFFF',
-  position: 'static',
+  position: 'relative',
   width: '200px',
   height: '245px',
   marginRight: '1em',

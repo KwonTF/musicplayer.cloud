@@ -4,8 +4,10 @@ const SET_MUSICS = 'music/SET_MUSICS';
 const ADD_MUSIC = 'music/ADD_MUSIC';
 const INIT_MUSICS = 'music/INIT_MUSICS';
 const EDIT_MUSIC = 'music/EDIT_MUSIC';
+const MUSIC_UPLOADED = 'music/MUSIC_UPLOADED';
 
 const initialState = {
+  uploaded: false,
   musics: [
     {
       musicId: '1',
@@ -29,6 +31,7 @@ const initialState = {
 export const setMusics = createAction(SET_MUSICS, (musics) => musics);
 export const addMusic = createAction(ADD_MUSIC, (music) => music);
 export const initMusics = createAction(INIT_MUSICS);
+export const musicUploaded = createAction(MUSIC_UPLOADED);
 export const editMusic = createAction(
   EDIT_MUSIC,
   (musicId, title, artist, track) => ({ musicId, title, artist, track }),
@@ -63,6 +66,9 @@ const music = handleActions(
       });
 
       return { ...state, musics: newMusics };
+    },
+    [MUSIC_UPLOADED]: (state) => {
+      return { ...state, uploaded: !state.uploaded };
     },
   },
   initialState,
