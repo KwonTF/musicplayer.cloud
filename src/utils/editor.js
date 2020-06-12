@@ -5,6 +5,7 @@ const OPEN_ALBUM = 'editor/OPEN_ALBUM';
 const SET_TRACK = 'editor/SET_TRACK';
 const SET_ALBUM = 'editor/SET_ALBUM';
 const CHANGE_EDIT = 'editor/CHANGE_EDIT';
+const INIT_EDITOR = 'editor/INIT_EDITOR';
 const ON_CHANGE_FIELD = 'editor/ON_CHANGE_FIELD';
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
 export const openTrack = createAction(OPEN_TRACK);
 export const openAlbum = createAction(OPEN_ALBUM);
 export const changeEdit = createAction(CHANGE_EDIT);
+export const initEditor = createAction(INIT_EDITOR);
 export const onChangeField = createAction(
   ON_CHANGE_FIELD,
   (fieldName, value) => ({ fieldName, value }),
@@ -94,6 +96,7 @@ const editor = handleActions(
       newState[payload.fieldName] = payload.value;
       return newState;
     },
+    [INIT_EDITOR]: () => initialState,
   },
   initialState,
 );

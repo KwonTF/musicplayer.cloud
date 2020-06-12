@@ -8,11 +8,25 @@ import {
   Box,
   makeStyles,
 } from '@material-ui/core';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
 import { useSelector, useDispatch } from 'react-redux';
-import { openTrack, onChangeField, changeEdit } from '../utils/editor';
-import { editMusic } from '../utils/music';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import {
+  openTrack,
+  onChangeField,
+  changeEdit,
+  initEditor,
+} from '../utils/editor';
+import { editMusic, musicUploaded } from '../utils/music';
 import { musicEdited } from '../utils/player';
 
+const REMOVE_TRACK = gql`
+  mutation removingMutations($Id: String!) {
+    removeTrack(trackId: $Id)
+  }
+`;
 const TrackBackDrop = styled(Backdrop)({ display: 'flex', zIndex: 1 });
 const useStyles = makeStyles(() => ({
   input: { color: '#FFFFFF' },
@@ -34,7 +48,8 @@ const ButtonBox = styled(Box)({
   justifyContent: 'flex-end',
 });
 
-const TrackEditor = () => {
+const TrackEditor = ({ history }) => {
+  const [removeTrack] = useMutation(REMOVE_TRACK);
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
@@ -73,6 +88,13 @@ const TrackEditor = () => {
     },
     [dispatch],
   );
+
+  const onDeleteMusic = useCallback(() => {
+    removeTrack({ variables: { Id: targetId } });
+    history.push('/');
+    dispatch(initEditor());
+    dispatch(musicUploaded());
+  }, [history, removeTrack, targetId, dispatch]);
 
   return (
     <TrackBackDrop open={isTrackOpened}>
@@ -128,6 +150,16 @@ const TrackEditor = () => {
         />
         <ButtonBox>
           <Button
+            onClick={onDeleteMusic}
+            style={{
+              color: '#eeeeee',
+              backgroundColor: '#333333',
+              marginRight: '1em',
+            }}
+          >
+            Delete Music
+          </Button>
+          <Button
             onClick={startEditing}
             style={{
               color: '#eeeeee',
@@ -151,5 +183,10 @@ const TrackEditor = () => {
     </TrackBackDrop>
   );
 };
+TrackEditor.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
-export default TrackEditor;
+export default withRouter(TrackEditor);
