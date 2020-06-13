@@ -79,13 +79,17 @@ const Album = () => {
       <>
         {albumMusics.length !== 0 ? (
           <SortedBox>
-            {albumMusics.map((album) => (
-              <MusicViewer
-                key={album.albumId}
-                title={album.title}
-                musics={album.tracks}
-              />
-            ))}
+            {albumMusics.map((album) => {
+              if (album.tracks.length !== 0)
+                return (
+                  <MusicViewer
+                    key={album.albumId}
+                    title={album.title}
+                    musics={album.tracks}
+                  />
+                );
+              return null;
+            })}
           </SortedBox>
         ) : (
           <>No Musics!</>

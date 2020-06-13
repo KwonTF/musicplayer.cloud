@@ -22,23 +22,8 @@ import {
 import { musicUploaded } from '../utils/music';
 
 const REMOVE_TRACK = gql`
-  mutation removingMutations(
-    $Id: String!
-    $album: String!
-    $albumArtist: String!
-    $artist: String!
-    $title: String!
-    $trackNumber: Int!
-  ) {
+  mutation removingMutations($Id: String!) {
     removeTrack(trackId: $Id)
-    updateTrack(
-      trackId: $Id
-      album: $album
-      albumArtist: $albumArtist
-      artist: $artist
-      title: $title
-      trackNumber: $trackNumber
-    )
   }
 `;
 
@@ -58,7 +43,9 @@ const UPDATE_TRACK = gql`
       artist: $artist
       title: $title
       trackNumber: $trackNumber
-    )
+    ) {
+      trackId
+    }
   }
 `;
 

@@ -91,7 +91,8 @@ const MusicCard = ({ music }) => {
         <CardMedia
           component="img"
           image={
-            music.imageLink
+            music.imageLink &&
+            music.imageLink !== 'https://placehold.it/512?text=No%20Image'
               ? music.imageLink
               : 'https://miel.dev/kwontf/dame.png'
           }
