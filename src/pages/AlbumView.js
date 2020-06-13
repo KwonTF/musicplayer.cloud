@@ -100,7 +100,7 @@ const Album = () => {
     [dispatch],
   );
   if (loading) return <LinearProgress />;
-  if (error) return <Redirect to="/album" />;
+  if (error) return <Redirect to="/404" />;
   const { album } = data;
   return (
     <>
@@ -155,7 +155,7 @@ const Album = () => {
                     },
                   });
                   dispatch(musicUploaded());
-                  history.push('/album');
+                  history.push('/artist');
                 }
               }}
             >
