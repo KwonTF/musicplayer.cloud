@@ -14,10 +14,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
-  openTrack,
   onChangeField,
   changeEdit,
   initEditor,
+  albumEdit,
 } from '../utils/editor';
 import { musicUploaded } from '../utils/music';
 
@@ -49,6 +49,13 @@ const UPDATE_TRACK = gql`
   }
 `;
 
+const UPDATE_ALBUM = gql`
+  mutation updatingAlbums($Id: Int!, $album: String!, $albumArtist: String!) {
+    updateAlbum(albumId: $Id, artist: $albumArtist, title: $album) {
+      albumId
+    }
+  }
+`;
 const TrackBackDrop = styled(Backdrop)({ display: 'flex', zIndex: 1 });
 const useStyles = makeStyles(() => ({
   input: { color: '#FFFFFF' },
@@ -73,6 +80,7 @@ const ButtonBox = styled(Box)({
 const TrackEditor = ({ history }) => {
   const [removeTrack] = useMutation(REMOVE_TRACK);
   const [updateTrack] = useMutation(UPDATE_TRACK);
+  const [updateAlbum] = useMutation(UPDATE_ALBUM);
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
@@ -85,6 +93,8 @@ const TrackEditor = ({ history }) => {
     targetId,
     albumName,
     albumArtist,
+    trackEditing,
+    albumId,
   } = useSelector(({ editor }) => ({
     isTrackOpened: editor.isTrackOpened,
     trackName: editor.trackName,
@@ -95,34 +105,44 @@ const TrackEditor = ({ history }) => {
     targetId: editor.targetId,
     albumName: editor.albumName,
     albumArtist: editor.albumArtist,
+    trackEditing: editor.trackEditing,
+    albumId: editor.albumId,
   }));
 
   const closeEditor = useCallback(() => {
-    dispatch(openTrack());
+    dispatch(initEditor());
+  }, [dispatch]);
+
+  const anotherEditor = useCallback(() => {
+    dispatch(albumEdit());
   }, [dispatch]);
 
   const startEditing = useCallback(() => {
     if (editing) {
       // dispatch(editMusic(targetId, trackName, trackArtist, trackNumber));
       // dispatch(musicEdited(targetId, trackName, trackArtist, trackNumber));
-      console.log(
-        targetId,
-        albumName,
-        albumArtist,
-        trackArtist,
-        trackName,
-        trackNumber,
-      );
-      updateTrack({
-        variables: {
-          Id: targetId,
-          album: albumName,
-          albumArtist,
-          artist: trackArtist,
-          title: trackName,
-          trackNumber,
-        },
-      });
+      if (trackEditing) {
+        updateTrack({
+          variables: {
+            Id: targetId,
+            album: albumName,
+            albumArtist,
+            artist: trackArtist,
+            title: trackName,
+            trackNumber: parseInt(trackNumber, 10),
+          },
+        });
+      } else {
+        updateAlbum({
+          variables: {
+            Id: parseInt(albumId, 10),
+            album: albumName,
+            albumArtist,
+          },
+        });
+      }
+      history.push('/');
+      dispatch(initEditor());
       dispatch(musicUploaded());
     }
     dispatch(changeEdit());
@@ -136,6 +156,10 @@ const TrackEditor = ({ history }) => {
     updateTrack,
     albumArtist,
     albumName,
+    history,
+    trackEditing,
+    updateAlbum,
+    albumId,
   ]);
 
   const onChangeEditor = useCallback(
@@ -171,39 +195,69 @@ const TrackEditor = ({ history }) => {
           justifyContent: 'space-between',
         }}
       >
-        <CssTextField
-          id="trackName"
-          label="Music Name"
-          value={trackName}
-          onChange={onChangeEditor}
-          inputProps={{
-            readOnly: !editing,
-            className: classes.input,
-          }}
-          InputLabelProps={{
-            style: textLabelStyle,
-          }}
-        />
-        <CssTextField
-          id="trackArtist"
-          label="Music Artist"
-          onChange={onChangeEditor}
-          value={trackArtist}
-          inputProps={{ readOnly: !editing, className: classes.input }}
-          InputLabelProps={{
-            style: textLabelStyle,
-          }}
-        />
-        <CssTextField
-          id="trackNumber"
-          label="Track Number"
-          onChange={onChangeEditor}
-          value={trackNumber}
-          inputProps={{ readOnly: !editing, className: classes.input }}
-          InputLabelProps={{
-            style: textLabelStyle,
-          }}
-        />
+        {trackEditing ? (
+          <>
+            <CssTextField
+              id="trackName"
+              label="Music Name"
+              value={trackName}
+              onChange={onChangeEditor}
+              inputProps={{
+                readOnly: !editing,
+                className: classes.input,
+              }}
+              InputLabelProps={{
+                style: textLabelStyle,
+              }}
+            />
+            <CssTextField
+              id="trackArtist"
+              label="Music Artist"
+              onChange={onChangeEditor}
+              value={trackArtist}
+              inputProps={{ readOnly: !editing, className: classes.input }}
+              InputLabelProps={{
+                style: textLabelStyle,
+              }}
+            />
+            <CssTextField
+              id="trackNumber"
+              label="Track Number"
+              onChange={onChangeEditor}
+              value={trackNumber}
+              inputProps={{ readOnly: !editing, className: classes.input }}
+              InputLabelProps={{
+                style: textLabelStyle,
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <CssTextField
+              id="albumName"
+              label="Album Name"
+              value={albumName}
+              onChange={onChangeEditor}
+              inputProps={{
+                readOnly: !editing,
+                className: classes.input,
+              }}
+              InputLabelProps={{
+                style: textLabelStyle,
+              }}
+            />
+            <CssTextField
+              id="albumArtist"
+              label="Almum Artist"
+              onChange={onChangeEditor}
+              value={albumArtist}
+              inputProps={{ readOnly: !editing, className: classes.input }}
+              InputLabelProps={{
+                style: textLabelStyle,
+              }}
+            />
+          </>
+        )}
         <ButtonBox>
           <Button
             onClick={onDeleteMusic}
@@ -233,6 +287,16 @@ const TrackEditor = ({ history }) => {
             }}
           >
             Close
+          </Button>
+          <Button
+            onClick={anotherEditor}
+            style={{
+              color: '#222222',
+              backgroundColor: '#25F2A3',
+              marginLeft: '1em',
+            }}
+          >
+            {trackEditing ? 'Edit Album' : 'Edit Track'}
           </Button>
         </ButtonBox>
       </form>
