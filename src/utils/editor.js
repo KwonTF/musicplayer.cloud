@@ -33,12 +33,22 @@ export const onChangeField = createAction(
 
 export const setTrack = createAction(
   SET_TRACK,
-  (trackName, trackArtist, trackNumber, trackCoverLink, targetId) => ({
+  (
     trackName,
     trackArtist,
     trackNumber,
     trackCoverLink,
     targetId,
+    albumName,
+    albumArtist,
+  ) => ({
+    trackName,
+    trackArtist,
+    trackNumber,
+    trackCoverLink,
+    targetId,
+    albumName,
+    albumArtist,
   }),
 );
 
@@ -88,6 +98,8 @@ const editor = handleActions(
         trackArtist: payload.trackArtist,
         trackNumber: payload.trackNumber,
         trackCoverLink: payload.trackCoverLink,
+        albumName: payload.albumName,
+        albumArtist: payload.albumArtist,
         targetId: payload.targetId,
       };
     },

@@ -19,14 +19,49 @@ import {
   changeEdit,
   initEditor,
 } from '../utils/editor';
-import { editMusic, musicUploaded } from '../utils/music';
-import { musicEdited } from '../utils/player';
+import { musicUploaded } from '../utils/music';
 
 const REMOVE_TRACK = gql`
-  mutation removingMutations($Id: String!) {
+  mutation removingMutations(
+    $Id: String!
+    $album: String!
+    $albumArtist: String!
+    $artist: String!
+    $title: String!
+    $trackNumber: Int!
+  ) {
     removeTrack(trackId: $Id)
+    updateTrack(
+      trackId: $Id
+      album: $album
+      albumArtist: $albumArtist
+      artist: $artist
+      title: $title
+      trackNumber: $trackNumber
+    )
   }
 `;
+
+const UPDATE_TRACK = gql`
+  mutation updatingMutations(
+    $Id: String!
+    $album: String!
+    $albumArtist: String!
+    $artist: String!
+    $title: String!
+    $trackNumber: Int!
+  ) {
+    updateTrack(
+      trackId: $Id
+      album: $album
+      albumArtist: $albumArtist
+      artist: $artist
+      title: $title
+      trackNumber: $trackNumber
+    )
+  }
+`;
+
 const TrackBackDrop = styled(Backdrop)({ display: 'flex', zIndex: 1 });
 const useStyles = makeStyles(() => ({
   input: { color: '#FFFFFF' },
@@ -50,6 +85,7 @@ const ButtonBox = styled(Box)({
 
 const TrackEditor = ({ history }) => {
   const [removeTrack] = useMutation(REMOVE_TRACK);
+  const [updateTrack] = useMutation(UPDATE_TRACK);
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
@@ -60,6 +96,8 @@ const TrackEditor = ({ history }) => {
     trackCoverLink,
     editing,
     targetId,
+    albumName,
+    albumArtist,
   } = useSelector(({ editor }) => ({
     isTrackOpened: editor.isTrackOpened,
     trackName: editor.trackName,
@@ -68,6 +106,8 @@ const TrackEditor = ({ history }) => {
     trackCoverLink: editor.trackCoverLink,
     editing: editor.editing,
     targetId: editor.targetId,
+    albumName: editor.albumName,
+    albumArtist: editor.albumArtist,
   }));
 
   const closeEditor = useCallback(() => {
@@ -76,11 +116,40 @@ const TrackEditor = ({ history }) => {
 
   const startEditing = useCallback(() => {
     if (editing) {
-      dispatch(editMusic(targetId, trackName, trackArtist, trackNumber));
-      dispatch(musicEdited(targetId, trackName, trackArtist, trackNumber));
+      // dispatch(editMusic(targetId, trackName, trackArtist, trackNumber));
+      // dispatch(musicEdited(targetId, trackName, trackArtist, trackNumber));
+      console.log(
+        targetId,
+        albumName,
+        albumArtist,
+        trackArtist,
+        trackName,
+        trackNumber,
+      );
+      updateTrack({
+        variables: {
+          Id: targetId,
+          album: albumName,
+          albumArtist,
+          artist: trackArtist,
+          title: trackName,
+          trackNumber,
+        },
+      });
+      dispatch(musicUploaded());
     }
     dispatch(changeEdit());
-  }, [targetId, trackName, trackArtist, trackNumber, editing, dispatch]);
+  }, [
+    targetId,
+    trackName,
+    trackArtist,
+    trackNumber,
+    editing,
+    dispatch,
+    updateTrack,
+    albumArtist,
+    albumName,
+  ]);
 
   const onChangeEditor = useCallback(
     (e) => {

@@ -71,6 +71,7 @@ const Album = () => {
         audioLink: track.url,
         imageLink: albumItem.cover,
         album: albumItem.title,
+        albumArtist: albumItem.artist,
         track: parseInt(track.trackNumber, 10),
       })),
     }));
