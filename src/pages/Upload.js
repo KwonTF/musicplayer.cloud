@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Grid, styled, Box, Typography } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet';
+
 import API from '../utils/api';
 import { useAuth0 } from '../utils/auth0';
 import { musicUploaded } from '../utils/music';
@@ -10,7 +12,7 @@ import { musicUploaded } from '../utils/music';
 const UploadGrid = styled(Grid)({
   display: 'flex',
   width: '100%',
-  height: '100%',
+  height: 'calc(100vh - 64px)',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: '#BBBBBB',
@@ -54,7 +56,7 @@ const Upload = ({ history }) => {
           if (xhr.status === 200 || xhr.status === 201) {
             console.log(xhr.responseText);
             dispatch(musicUploaded());
-            history.push('/');
+            history.push('/artist');
           } else {
             console.error(xhr.responseText);
           }
@@ -71,16 +73,21 @@ const Upload = ({ history }) => {
   });
 
   return (
-    <UploadGrid>
-      <UploadBox {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <Typography>Drop here ...</Typography>
-        ) : (
-          <Typography>Drop or Click</Typography>
-        )}
-      </UploadBox>
-    </UploadGrid>
+    <>
+      <Helmet>
+        <title>Upload :: MusicPlayer.Cloud</title>
+      </Helmet>
+      <UploadGrid>
+        <UploadBox {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <Typography>Drop here ...</Typography>
+          ) : (
+            <Typography>Drop or Click</Typography>
+          )}
+        </UploadBox>
+      </UploadGrid>
+    </>
   );
 };
 

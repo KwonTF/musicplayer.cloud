@@ -14,6 +14,7 @@ const PlayerBar = styled(AppBar)({
 
 const PlayerBarBlock = styled(Toolbar)({
   backgroundColor: '#18206BBB',
+  backdropFilter: 'blur(5px)',
 });
 
 const MusicNameText = styled(Typography)({
@@ -55,11 +56,7 @@ const Player = () => {
               >
                 <CardMedia
                   component="img"
-                  image={
-                    nowPlaying.imageLink
-                      ? nowPlaying.imageLink
-                      : 'https://miel.dev/kwontf/dame.png'
-                  }
+                  image={nowPlaying.imageLink}
                   alt={nowPlaying.title}
                   title={nowPlaying.title}
                   height={50}

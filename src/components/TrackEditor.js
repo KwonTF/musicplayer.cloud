@@ -141,7 +141,7 @@ const TrackEditor = ({ history }) => {
           },
         });
       }
-      history.push('/');
+      history.push('/artist');
       dispatch(initEditor());
       dispatch(musicUploaded());
     }
@@ -171,7 +171,7 @@ const TrackEditor = ({ history }) => {
 
   const onDeleteMusic = useCallback(() => {
     removeTrack({ variables: { Id: targetId } });
-    history.push('/');
+    history.push('/artist');
     dispatch(initEditor());
     dispatch(musicUploaded());
   }, [history, removeTrack, targetId, dispatch]);
@@ -180,7 +180,7 @@ const TrackEditor = ({ history }) => {
     <TrackBackDrop open={isTrackOpened}>
       <CardMedia
         component="img"
-        image={trackCoverLink || 'https://miel.dev/kwontf/dame.png'}
+        image={trackCoverLink}
         alt={trackName}
         height={320}
         style={{ width: 320 }}

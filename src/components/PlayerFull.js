@@ -15,6 +15,7 @@ const PlayerBackDrop = styled(Backdrop)({
   justifyContent: 'flex-start',
   height: 'auto',
   paddingTop: '6em',
+  backdropFilter: 'blur(5px)',
 });
 
 const InfoBox = styled(Box)({
@@ -49,11 +50,7 @@ const PlayerFull = () => {
       <Box style={{ display: 'flex' }}>
         <CardMedia
           component="img"
-          image={
-            nowPlaying.imageLink
-              ? nowPlaying.imageLink
-              : 'https://miel.dev/kwontf/dame.png'
-          }
+          image={nowPlaying.imageLink}
           alt={nowPlaying.title}
           title={nowPlaying.title}
           height={320}

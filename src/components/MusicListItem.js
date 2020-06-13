@@ -52,7 +52,7 @@ MusicListItem.defaultProps = {
     title: '',
     artist: '',
     album: '',
-    imageLink: 'https://miel.dev/kwontf/dame.png',
+    imageLink: '',
     audioLink: '',
   },
 };
