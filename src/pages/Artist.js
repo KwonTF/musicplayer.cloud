@@ -74,6 +74,7 @@ const Artist = () => {
               musicId: track.trackId,
               audioLink: track.url,
               imageLink: albumItem.cover,
+              albumId: albumItem.albumId,
               album: albumItem.title,
               albumArtist: albumItem.artist,
               track: parseInt(track.trackNumber, 10),

@@ -67,7 +67,6 @@ const MusicCard = ({ music }) => {
   }, [dispatch, music, nowPlaying]);
 
   const showDetail = useCallback(() => {
-    console.log(music);
     dispatch(
       setTrack(
         music.title,
@@ -77,6 +76,7 @@ const MusicCard = ({ music }) => {
         music.musicId,
         music.album,
         music.albumArtist,
+        music.albumId,
       ),
     );
     dispatch(openTrack());
@@ -119,6 +119,7 @@ MusicCard.propTypes = {
     audioLink: PropTypes.string,
     track: PropTypes.number,
     albumArtist: PropTypes.string,
+    albumId: PropTypes.number,
   }),
 };
 

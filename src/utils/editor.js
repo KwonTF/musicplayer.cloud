@@ -7,6 +7,7 @@ const SET_ALBUM = 'editor/SET_ALBUM';
 const CHANGE_EDIT = 'editor/CHANGE_EDIT';
 const INIT_EDITOR = 'editor/INIT_EDITOR';
 const ON_CHANGE_FIELD = 'editor/ON_CHANGE_FIELD';
+const ALBUM_EDIT = 'editor/ALBUM_EDIT';
 
 const initialState = {
   isTrackOpened: false,
@@ -20,12 +21,15 @@ const initialState = {
   trackCoverLink: '',
   editing: false,
   targetId: '',
+  albumId: '',
+  trackEditing: true,
 };
 
 export const openTrack = createAction(OPEN_TRACK);
 export const openAlbum = createAction(OPEN_ALBUM);
 export const changeEdit = createAction(CHANGE_EDIT);
 export const initEditor = createAction(INIT_EDITOR);
+export const albumEdit = createAction(ALBUM_EDIT);
 export const onChangeField = createAction(
   ON_CHANGE_FIELD,
   (fieldName, value) => ({ fieldName, value }),
@@ -41,6 +45,7 @@ export const setTrack = createAction(
     targetId,
     albumName,
     albumArtist,
+    albumId,
   ) => ({
     trackName,
     trackArtist,
@@ -49,6 +54,7 @@ export const setTrack = createAction(
     targetId,
     albumName,
     albumArtist,
+    albumId,
   }),
 );
 
@@ -101,12 +107,19 @@ const editor = handleActions(
         albumName: payload.albumName,
         albumArtist: payload.albumArtist,
         targetId: payload.targetId,
+        albumId: payload.albumId,
       };
     },
     [ON_CHANGE_FIELD]: (state, { payload }) => {
       const newState = state;
       newState[payload.fieldName] = payload.value;
       return newState;
+    },
+    [ALBUM_EDIT]: (state) => {
+      return {
+        ...state,
+        trackEditing: !state.trackEditing,
+      };
     },
     [INIT_EDITOR]: () => initialState,
   },
