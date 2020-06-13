@@ -13,7 +13,7 @@ const PlayerBar = styled(AppBar)({
 });
 
 const PlayerBarBlock = styled(Toolbar)({
-  backgroundColor: '#18206BBB',
+  backgroundColor: '#24000ABB',
   backdropFilter: 'blur(5px)',
 });
 

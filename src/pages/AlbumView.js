@@ -128,18 +128,21 @@ const Album = () => {
               startIcon={<QueueMusicIcon />}
               onClick={() => {
                 album.tracks.forEach((track) => {
-                  AddMusic({
-                    musicId: track.trackId,
-                    title: track.title,
-                    artist: track.artist,
-                    album: album.title,
-                    imageLink: album.cover,
-                    audioLink: track.url,
-                    track: track.trackNumber,
-                    albumArtist: album.artist,
-                    albumId: album.albumId,
-                  });
+                  dispatch(
+                    addMusic({
+                      musicId: track.trackId,
+                      title: track.title,
+                      artist: track.artist,
+                      album: album.title,
+                      imageLink: album.cover,
+                      audioLink: track.url,
+                      track: track.trackNumber,
+                      albumArtist: album.artist,
+                      albumId: album.albumId,
+                    }),
+                  );
                 });
+                dispatch(playPauseMusic());
               }}
             >
               Play Album

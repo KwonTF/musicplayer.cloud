@@ -7,13 +7,16 @@ import PropTypes from 'prop-types';
 import { removeMusic } from '../utils/player';
 
 const ListBox = styled(Box)({
+  boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
-  width: '50%',
+  width: '100%',
   border: 'solid #EEEEEE 1px',
   borderRadius: '5px',
   marginTop: '1em',
   paddingLeft: '1em',
+  marginLeft: 'auto',
+  marginRight: 'auto',
 });
 
 const MusicListItem = ({ index, music }) => {
