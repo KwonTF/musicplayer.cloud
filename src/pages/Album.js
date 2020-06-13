@@ -71,6 +71,7 @@ const Album = () => {
         audioLink: track.url,
         imageLink: albumItem.cover,
         album: albumItem.title,
+        albumArtist: albumItem.artist,
         track: parseInt(track.trackNumber, 10),
       })),
     }));
@@ -78,13 +79,17 @@ const Album = () => {
       <>
         {albumMusics.length !== 0 ? (
           <SortedBox>
-            {albumMusics.map((album) => (
-              <MusicViewer
-                key={album.albumId}
-                title={album.title}
-                musics={album.tracks}
-              />
-            ))}
+            {albumMusics.map((album) => {
+              if (album.tracks.length !== 0)
+                return (
+                  <MusicViewer
+                    key={album.albumId}
+                    title={album.title}
+                    musics={album.tracks}
+                  />
+                );
+              return null;
+            })}
           </SortedBox>
         ) : (
           <>No Musics!</>

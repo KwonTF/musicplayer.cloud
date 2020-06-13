@@ -67,6 +67,7 @@ const MusicCard = ({ music }) => {
   }, [dispatch, music, nowPlaying]);
 
   const showDetail = useCallback(() => {
+    console.log(music);
     dispatch(
       setTrack(
         music.title,
@@ -74,6 +75,8 @@ const MusicCard = ({ music }) => {
         music.track || 0,
         music.imageLink,
         music.musicId,
+        music.album,
+        music.albumArtist,
       ),
     );
     dispatch(openTrack());
@@ -88,7 +91,8 @@ const MusicCard = ({ music }) => {
         <CardMedia
           component="img"
           image={
-            music.imageLink
+            music.imageLink &&
+            music.imageLink !== 'https://placehold.it/512?text=No%20Image'
               ? music.imageLink
               : 'https://miel.dev/kwontf/dame.png'
           }
@@ -114,6 +118,7 @@ MusicCard.propTypes = {
     imageLink: PropTypes.string,
     audioLink: PropTypes.string,
     track: PropTypes.number,
+    albumArtist: PropTypes.string,
   }),
 };
 
@@ -124,6 +129,7 @@ MusicCard.defaultProps = {
     album: '',
     imageLink: 'https://miel.dev/kwontf/dame.png',
     audioLink: '',
+    albumArtist: '',
   },
 };
 export default MusicCard;
