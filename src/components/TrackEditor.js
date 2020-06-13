@@ -120,9 +120,11 @@ const TrackEditor = ({ history }) => {
           albumArtist,
           artist: trackArtist,
           title: trackName,
-          trackNumber,
+          trackNumber: parseInt(trackNumber, 10),
         },
       });
+      history.push('/');
+      dispatch(initEditor());
       dispatch(musicUploaded());
     }
     dispatch(changeEdit());
@@ -136,6 +138,7 @@ const TrackEditor = ({ history }) => {
     updateTrack,
     albumArtist,
     albumName,
+    history,
   ]);
 
   const onChangeEditor = useCallback(
