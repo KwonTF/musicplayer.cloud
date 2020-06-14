@@ -1,8 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, styled, Box, Typography } from '@material-ui/core';
+import {
+  Grid,
+  styled,
+  Box,
+  Typography,
+  LinearProgress,
+} from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet';
+
 import API from '../utils/api';
 import { useAuth0 } from '../utils/auth0';
 import { musicUploaded } from '../utils/music';
@@ -10,7 +18,7 @@ import { musicUploaded } from '../utils/music';
 const UploadGrid = styled(Grid)({
   display: 'flex',
   width: '100%',
-  height: '100%',
+  height: 'calc(100vh - 64px)',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: '#BBBBBB',
@@ -42,8 +50,11 @@ const Upload = ({ history }) => {
     getToken();
   }, [isAuthenticated, getTokenSilently]);
 
+  const [loading, setLoading] = useState(false);
+
   const onDrop = useCallback(
     async (acceptedFiles) => {
+      setLoading(true);
       const xhr = new XMLHttpRequest();
       xhr.open('POST', `${API.endpoint}/upload`);
       xhr.setRequestHeader('Authorization', `Bearer ${token}`);
@@ -54,9 +65,11 @@ const Upload = ({ history }) => {
           if (xhr.status === 200 || xhr.status === 201) {
             console.log(xhr.responseText);
             dispatch(musicUploaded());
-            history.push('/');
+            history.push('/artist');
+            setLoading(false);
           } else {
             console.error(xhr.responseText);
+            setLoading(false);
           }
         }
       };
@@ -67,20 +80,29 @@ const Upload = ({ history }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    disabled: loading,
     accept: 'audio/mpeg',
   });
 
   return (
-    <UploadGrid>
-      <UploadBox {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <Typography>Drop here ...</Typography>
-        ) : (
-          <Typography>Drop or Click</Typography>
-        )}
-      </UploadBox>
-    </UploadGrid>
+    <>
+      <Helmet>
+        <title>Upload :: MusicPlayer.Cloud</title>
+      </Helmet>
+      {loading && <LinearProgress />}
+      <UploadGrid>
+        <UploadBox {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <Typography>Drop here ...</Typography>
+          ) : (
+            <Typography>
+              {loading ? 'Uploading...' : 'Drop or Click'}
+            </Typography>
+          )}
+        </UploadBox>
+      </UploadGrid>
+    </>
   );
 };
 

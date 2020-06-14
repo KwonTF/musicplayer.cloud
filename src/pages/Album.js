@@ -1,10 +1,17 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { styled } from '@material-ui/styles';
-import { Box } from '@material-ui/core';
+import {
+  LinearProgress,
+  Grid,
+  Typography,
+  Paper,
+  Box,
+} from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import MusicViewer from '../components/MusicViewer';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
 import { musicUploaded } from '../utils/music';
 
 const ALBUM_QUERY = gql`
@@ -14,24 +21,11 @@ const ALBUM_QUERY = gql`
       title
       artist
       cover
-      tracks {
-        trackId
-        title
-        trackNumber
-        artist
-        url
-      }
     }
   }
 `;
 
-const SortedBox = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-});
-
 const Album = () => {
-  // const { loading, data } = useQuery(ALBUM_QUERY);
   const dispatch = useDispatch();
   const { isMusicUploaded } = useSelector(({ music }) => ({
     isMusicUploaded: music.uploaded,
@@ -41,65 +35,42 @@ const Album = () => {
     refetch();
     dispatch(musicUploaded());
   }
-  /* const musics = data
-    ? data.albums
-        .map((album) =>
-          album.tracks.map((track) => ({
-            musicId: track.trackId,
-            title: track.title,
-            artist: track.artist,
-            album: album.title,
-            imageLink: album.cover,
-            audioLink: track.url,
-          })),
-        )
-        .reduce(
-          (accumulator, currentValue) => accumulator.concat(currentValue),
-          [],
-        )
-    : [];
-  // console.log(musics); */
 
-  if (loading) return 'Loading...';
-  if (data) {
-    const albumMusics = data.albums.map((albumItem) => ({
-      albumId: albumItem.albumId,
-      title: albumItem.title,
-      tracks: albumItem.tracks.map((track) => ({
-        ...track,
-        musicId: track.trackId,
-        audioLink: track.url,
-        imageLink: albumItem.cover,
-        album: albumItem.title,
-        albumId: albumItem.albumId,
-        albumArtist: albumItem.artist,
-        track: parseInt(track.trackNumber, 10),
-      })),
-    }));
-    return (
-      <>
-        {albumMusics.length !== 0 ? (
-          <SortedBox>
-            {albumMusics.map((album) => {
-              if (album.tracks.length !== 0)
-                return (
-                  <MusicViewer
-                    key={album.albumId}
-                    title={album.title}
-                    musics={album.tracks}
-                  />
-                );
-              return null;
-            })}
-          </SortedBox>
-        ) : (
-          <>No Musics!</>
-        )}
-      </>
-    );
-  }
+  if (loading) return <LinearProgress />;
 
-  return <>No Musics!</>;
+  const albums = data.albums || [];
+
+  return (
+    <>
+      <Helmet>
+        <title>Album :: MusicPlayer.Cloud</title>
+      </Helmet>
+      <Box m={2} />
+      {albums.length === 0 && <Typography>Music does not exist.</Typography>}
+      <Grid container spacing={3}>
+        {albums.map((album) => (
+          <Grid item xs={6} md={4} lg={3} key={album.albumId}>
+            <Link
+              to={`/album/${album.albumId}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <Paper>
+                <img src={album.cover} alt={album.title} width="100%" />
+                <div style={{ padding: '0 16px' }}>
+                  <Typography component="h6" variant="h6" noWrap>
+                    {album.title}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary" noWrap>
+                    {album.artist}
+                  </Typography>
+                </div>
+              </Paper>
+            </Link>
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
 };
 
 export default Album;

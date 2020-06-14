@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box, Typography, Button, styled } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
-import { useAuth0 } from '../utils/auth0';
-
-const Index = () => {
-  const { loginWithRedirect } = useAuth0();
+const Page404 = () => {
   const TitleTypography = styled(Typography)({
     fontSize: '6em',
     marginBottom: '0',
@@ -16,7 +14,7 @@ const Index = () => {
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
   });
-  const LogInButton = styled(Button)({
+  const RedirectButton = styled(Button)({
     background: 'linear-gradient(to right, #F22E62, #F26916)',
     '&hover': {
       background: 'linear-gradient(to right, #F24976, #F9663E)',
@@ -25,25 +23,25 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>MusicPlayer.Cloud</title>
+        <title>Page Not Found :: MusicPlayer.Cloud</title>
       </Helmet>
       <Box m={16} />
       <TitleTypography component="h1" variant="h1">
-        MusicPlayer.Cloud
+        Page not found
       </TitleTypography>
-      <Typography variant="h4" color="textSecondary" noWrap>
-        Play your music, everywhere.
+      <Typography variant="h4" noWrap>
+        <span role="img" aria-label="thinking face">
+          🤔 I think it&apos;s all your fault, Not mine. 🤔
+        </span>
       </Typography>
       <Box m={8} />
-      <LogInButton
-        variant="contained"
-        color="primary"
-        onClick={() => loginWithRedirect()}
-      >
-        Login
-      </LogInButton>
+      <RedirectButton variant="contained" color="primary">
+        <Link to="/" style={{ color: '#EEEEEE', textDecoration: 'none' }}>
+          Home
+        </Link>
+      </RedirectButton>
     </>
   );
 };
 
-export default Index;
+export default Page404;

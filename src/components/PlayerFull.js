@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@material-ui/styles';
-import { Backdrop, Box, Typography, CardMedia } from '@material-ui/core';
+import { Backdrop, Box, Typography, Grid, Container } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import PlayerButtons from './PlayerButtons';
 import MusicListItem from './MusicListItem';
@@ -8,13 +8,14 @@ import MusicListItem from './MusicListItem';
 const PlayerBackDrop = styled(Backdrop)({
   color: '#FFFFFF',
   textShadow: '#000000 2px 2px 2px',
-  backgroundColor: '#18206BBB',
+  backgroundColor: '#24000ABB',
   overflowY: 'auto',
   zIndex: 1,
   flexDirection: 'column',
   justifyContent: 'flex-start',
   height: 'auto',
   paddingTop: '6em',
+  backdropFilter: 'blur(5px)',
 });
 
 const InfoBox = styled(Box)({
@@ -46,41 +47,38 @@ const PlayerFull = () => {
   }));
   return (
     <PlayerBackDrop open={open}>
-      <Box style={{ display: 'flex' }}>
-        <CardMedia
-          component="img"
-          image={
-            nowPlaying.imageLink
-              ? nowPlaying.imageLink
-              : 'https://miel.dev/kwontf/dame.png'
-          }
-          alt={nowPlaying.title}
-          title={nowPlaying.title}
-          height={320}
-          style={{ width: 320 }}
-        />
-        <InfoBox>
-          <TitleText>
-            {nowPlaying.title ? nowPlaying.title : 'No Title'}
-          </TitleText>
-          <SubText>
-            {nowPlaying.artist ? nowPlaying.artist : 'No Artist'}
-          </SubText>
-          <SubText>{nowPlaying.album ? nowPlaying.album : 'No Album'}</SubText>
-          <Box>
-            <PlayerButtons />
-          </Box>
-        </InfoBox>
-      </Box>
-      {playList
-        ? playList.map((music, index) => {
-            return (
-              <>
+      <Container>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
+            <img
+              src={nowPlaying.imageLink}
+              alt={nowPlaying.title}
+              title={nowPlaying.title}
+              width="320px"
+            />
+          </Grid>
+          <Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
+            <InfoBox>
+              <TitleText>
+                {nowPlaying.title ? nowPlaying.title : 'No Title'}
+              </TitleText>
+              <SubText>
+                {nowPlaying.artist ? nowPlaying.artist : 'No Artist'}
+              </SubText>
+              <SubText>
+                {nowPlaying.album ? nowPlaying.album : 'No Album'}
+              </SubText>
+              <Box>
+                <PlayerButtons />
+              </Box>
+            </InfoBox>
+            {playList &&
+              playList.map((music, index) => (
                 <MusicListItem music={music} index={index} />
-              </>
-            );
-          })
-        : null}
+              ))}
+          </Grid>
+        </Grid>
+      </Container>
     </PlayerBackDrop>
   );
 };

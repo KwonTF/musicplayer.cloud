@@ -4,7 +4,7 @@ import { Button, styled, Toolbar, AppBar, Box } from '@material-ui/core';
 import { useAuth0 } from '../utils/auth0';
 
 const HeaderBlock = styled(Toolbar)({
-  backgroundColor: '#56613d',
+  backgroundColor: '#F22E62',
   color: '#ffffff',
   fontWeight: 700,
   fontSize: '1.5rem',
@@ -14,7 +14,7 @@ const HeaderLinks = styled(Box)({
   fontSize: '1.3rem',
   fontWight: 400,
   display: 'flex',
-  color: '#bbbbbb',
+  color: '#FFB3C7',
 });
 
 const LinkBox = styled(Box)({
@@ -22,12 +22,12 @@ const LinkBox = styled(Box)({
 });
 
 const StyledButton = styled(Button)({
-  backgroundColor: '#474261',
+  backgroundColor: '#F26916',
   color: '#EEEEEE',
   fontFamily: 'Lato',
   fontSize: '1rem',
   '&:hover': {
-    background: '#877FAD',
+    background: '#F9A50A',
   },
 });
 
@@ -40,7 +40,7 @@ const LogoutButton = styled(Button)({
   paddingRight: '1rem',
 });
 
-const ActiveStyle = { color: '#FFFFFF' };
+const ActiveStyle = { color: '#FFE6EC' };
 const LinkStyle = { textDecoration: 'none', color: 'inherit' };
 
 const Header = () => {
@@ -49,7 +49,7 @@ const Header = () => {
     <>
       <AppBar>
         <HeaderBlock>
-          <NavLink to="/" style={LinkStyle}>
+          <NavLink to={isAuthenticated ? '/artist' : '/'} style={LinkStyle}>
             MusicPlayer.Cloud
           </NavLink>
 
@@ -76,7 +76,7 @@ const Header = () => {
                 </LinkBox>
                 <LinkBox>
                   <NavLink
-                    to="/playlist"
+                    to="/track"
                     activeStyle={ActiveStyle}
                     style={LinkStyle}
                   >

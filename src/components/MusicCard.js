@@ -90,12 +90,7 @@ const MusicCard = ({ music }) => {
       <ActionArea onClick={MusicAdd}>
         <CardMedia
           component="img"
-          image={
-            music.imageLink &&
-            music.imageLink !== 'https://placehold.it/512?text=No%20Image'
-              ? music.imageLink
-              : 'https://miel.dev/kwontf/dame.png'
-          }
+          image={music.imageLink}
           alt={music.title}
           title={music.title}
           height={200}
@@ -128,7 +123,7 @@ MusicCard.defaultProps = {
     title: '',
     artist: '',
     album: '',
-    imageLink: 'https://miel.dev/kwontf/dame.png',
+    imageLink: '',
     audioLink: '',
     albumArtist: '',
   },
