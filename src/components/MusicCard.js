@@ -73,7 +73,7 @@ const MusicCard = ({ music }) => {
         music.artist,
         music.track || 0,
         music.imageLink,
-        music.musicId,
+        music.trackId,
         music.album,
         music.albumArtist,
         music.albumId,
@@ -106,7 +106,7 @@ const MusicCard = ({ music }) => {
 
 MusicCard.propTypes = {
   music: PropTypes.shape({
-    musicId: PropTypes.string.isRequired,
+    trackId: PropTypes.string.isRequired,
     title: PropTypes.string,
     artist: PropTypes.string,
     album: PropTypes.string,

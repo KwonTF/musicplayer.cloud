@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { useParams, Redirect, useHistory } from 'react-router-dom';
-import { gql } from 'apollo-boost';
+import { useParams, Redirect } from 'react-router-dom';
 import {
   LinearProgress,
   Grid,
@@ -23,53 +22,28 @@ import { Helmet } from 'react-helmet';
 
 import { addMusic, playPauseMusic } from '../utils/player';
 import { setTrack, openTrack } from '../utils/editor';
-import { musicUploaded } from '../utils/music';
-
-const ALBUM_QUERY = gql`
-  query getAlbum($AlbumId: Int!) {
-    album(albumId: $AlbumId) {
-      albumId
-      title
-      artist
-      cover
-      tracks {
-        artist
-        title
-        trackId
-        trackNumber
-        url
-      }
-    }
-  }
-`;
-
-const REMOVE_ALBUM = gql`
-  mutation removingMutations($AlbumId: Int!) {
-    removeAlbum(albumId: $AlbumId)
-  }
-`;
+import {
+  ALBUM_QUERY,
+  REMOVE_ALBUM,
+  ALBUMS_QUERY,
+  TRACKS_QUERY,
+  ARTISTS_QUERY,
+} from '../utils/query';
 
 const Album = () => {
   const dispatch = useDispatch();
-  const { isMusicUploaded } = useSelector(({ music }) => ({
-    isMusicUploaded: music.uploaded,
-  }));
 
   const { nowPlaying } = useSelector(({ player }) => ({
     nowPlaying: player.nowPlaying,
   }));
   const { albumId } = useParams();
-  const { loading, data, error, refetch } = useQuery(ALBUM_QUERY, {
+  const { loading, data, error } = useQuery(ALBUM_QUERY, {
     variables: {
-      AlbumId: parseInt(albumId, 10),
+      albumId: parseInt(albumId, 10),
     },
   });
   const [removeAlbum] = useMutation(REMOVE_ALBUM);
-  const history = useHistory();
-  if (isMusicUploaded) {
-    refetch();
-    dispatch(musicUploaded());
-  }
+
   const AddMusic = useCallback(
     (music) => {
       if (nowPlaying) {
@@ -89,7 +63,7 @@ const Album = () => {
           track.artist,
           track.track,
           track.imageLink,
-          track.musicId,
+          track.trackId,
           track.album,
           track.albumArtist,
           track.albumId,
@@ -102,6 +76,7 @@ const Album = () => {
   if (loading) return <LinearProgress />;
   if (error) return <Redirect to="/404" />;
   const { album } = data;
+  if (!album) return <Redirect to="/Album" />;
   return (
     <>
       <Helmet>
@@ -130,7 +105,7 @@ const Album = () => {
                 album.tracks.forEach((track) => {
                   dispatch(
                     addMusic({
-                      musicId: track.trackId,
+                      trackId: track.trackId,
                       title: track.title,
                       artist: track.artist,
                       album: album.title,
@@ -156,9 +131,24 @@ const Album = () => {
                     variables: {
                       AlbumId: album.albumId,
                     },
+                    refetchQueries: [
+                      {
+                        query: ALBUMS_QUERY,
+                      },
+                      {
+                        query: TRACKS_QUERY,
+                      },
+                      {
+                        query: ARTISTS_QUERY,
+                      },
+                      {
+                        query: ALBUM_QUERY,
+                        variables: {
+                          albumId: parseInt(album.albumId, 10),
+                        },
+                      },
+                    ],
                   });
-                  dispatch(musicUploaded());
-                  history.push('/artist');
                 }
               }}
             >
@@ -178,7 +168,7 @@ const Album = () => {
                     aria-label="add to queue"
                     onClick={() => {
                       AddMusic({
-                        musicId: track.trackId,
+                        trackId: track.trackId,
                         title: track.title,
                         artist: track.artist,
                         album: album.title,
@@ -197,7 +187,7 @@ const Album = () => {
                     edge="end"
                     onClick={() => {
                       ShowDetail({
-                        musicId: track.trackId,
+                        trackId: track.trackId,
                         title: track.title,
                         artist: track.artist,
                         album: album.title,

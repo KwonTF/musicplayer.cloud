@@ -8,12 +8,12 @@ import {
   LinearProgress,
 } from '@material-ui/core';
 import { useDropzone } from 'react-dropzone';
-import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { useQuery } from '@apollo/react-hooks';
 
 import API from '../utils/api';
 import { useAuth0 } from '../utils/auth0';
-import { musicUploaded } from '../utils/music';
+import { ALBUMS_QUERY, TRACKS_QUERY, ARTISTS_QUERY } from '../utils/query';
 
 const UploadGrid = styled(Grid)({
   display: 'flex',
@@ -36,7 +36,10 @@ const UploadBox = styled(Box)({
 const Upload = ({ history }) => {
   const { getTokenSilently, isAuthenticated } = useAuth0();
   const [token, setToken] = useState('');
-  const dispatch = useDispatch();
+
+  const albumsQuery = useQuery(ALBUMS_QUERY);
+  const artistsQuery = useQuery(ARTISTS_QUERY);
+  const tracksQuery = useQuery(TRACKS_QUERY);
 
   useEffect(() => {
     const getToken = async () => {
@@ -66,7 +69,7 @@ const Upload = ({ history }) => {
             xhr.onreadystatechange = () => {
               if (xhr.readyState === xhr.DONE) {
                 if (xhr.status === 200 || xhr.status === 201) {
-                  accept();
+                  accept(xhr.responseText);
                 } else {
                   reject();
                 }
@@ -76,18 +79,20 @@ const Upload = ({ history }) => {
           }),
       );
       Promise.all(uploads)
-        .then(() => {
-          dispatch(musicUploaded());
+        .then(async (file) => {
           setLoading(false);
+          await artistsQuery.refetch();
+          await albumsQuery.refetch();
+          await tracksQuery.refetch();
+          console.log(file);
           history.push('/artist');
         })
         .catch(() => {
-          dispatch(musicUploaded());
           setLoading(false);
           history.push('/artist');
         });
     },
-    [dispatch, history, token],
+    [history, token, artistsQuery, albumsQuery, tracksQuery],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

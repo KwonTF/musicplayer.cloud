@@ -24,7 +24,7 @@ export const addMusic = createAction(ADD_MUSIC, (music) => music);
 export const removeMusic = createAction(REMOVE_MUSIC, (index) => index);
 export const musicEdited = createAction(
   MUSIC_EDITED,
-  (musicId, title, artist, track) => ({ musicId, title, artist, track }),
+  (trackId, title, artist, track) => ({ trackId, title, artist, track }),
 );
 
 const player = handleActions(
@@ -104,7 +104,7 @@ const player = handleActions(
     },
     [MUSIC_EDITED]: (state, { payload }) => {
       const newPlayList = state.playList.map((musicItem) => {
-        if (payload.musicId === musicItem.musicId) {
+        if (payload.trackId === musicItem.trackId) {
           return {
             ...musicItem,
             title: payload.title,
@@ -115,7 +115,7 @@ const player = handleActions(
         return musicItem;
       });
       const editedPlaying = state.nowPlaying;
-      if (state.nowPlaying.musicId === payload.musicId) {
+      if (state.nowPlaying.trackId === payload.trackId) {
         editedPlaying.title = payload.title;
         editedPlaying.artist = payload.artist;
         editedPlaying.track = payload.track;

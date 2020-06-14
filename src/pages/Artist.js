@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Paper,
@@ -8,40 +7,14 @@ import {
   Grid,
   Box,
 } from '@material-ui/core';
-import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { Helmet } from 'react-helmet';
 
-import { musicUploaded } from '../utils/music';
-
-const ARTIST_QUERY = gql`
-  {
-    artists {
-      name
-      albums {
-        albumId
-        artist
-        cover
-        title
-      }
-    }
-  }
-`;
+import { ARTISTS_QUERY } from '../utils/query';
 
 const Artist = () => {
-  const dispatch = useDispatch();
-  const { isMusicUploaded } = useSelector(({ music }) => ({
-    isMusicUploaded: music.uploaded,
-  }));
-  const { loading, data, refetch } = useQuery(ARTIST_QUERY);
-  if (isMusicUploaded) {
-    refetch();
-    dispatch(musicUploaded());
-  }
-
+  const { loading, data } = useQuery(ARTISTS_QUERY);
   if (loading) return <LinearProgress />;
-
-  if (!data) return 'No Music';
 
   const { artists } = data;
   return (
