@@ -8,7 +8,7 @@ import { skipMusic, playPauseMusic } from '../utils/player';
 
 const PlayerBar = styled(AppBar)({
   top: 'auto',
-  bottom: 0,
+  bottom: '56px',
   backgroundColor: 'transparent',
 });
 
