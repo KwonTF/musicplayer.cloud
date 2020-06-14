@@ -16,6 +16,7 @@ const PlayerBackDrop = styled(Backdrop)({
   height: 'auto',
   paddingTop: '6em',
   backdropFilter: 'blur(5px)',
+  bottom: '56px',
 });
 
 const InfoBox = styled(Box)({

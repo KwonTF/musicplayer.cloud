@@ -11,10 +11,6 @@ const Index = () => {
     marginBottom: '0',
     fontWeight: '300',
     color: '#F26916',
-    background: 'linear-gradient(to right, #F22E62, #F26916)',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   });
   const LogInButton = styled(Button)({
     background: 'linear-gradient(to right, #F22E62, #F26916)',
@@ -28,10 +24,10 @@ const Index = () => {
         <title>MusicPlayer.Cloud</title>
       </Helmet>
       <Box m={16} />
-      <TitleTypography component="h1" variant="h1">
+      <TitleTypography component="h2" variant="h2">
         MusicPlayer.Cloud
       </TitleTypography>
-      <Typography variant="h4" color="textSecondary" noWrap>
+      <Typography variant="h4" color="textSecondary">
         Play your music, everywhere.
       </Typography>
       <Box m={8} />
