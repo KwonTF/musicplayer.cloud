@@ -55,25 +55,37 @@ const Upload = ({ history }) => {
   const onDrop = useCallback(
     async (acceptedFiles) => {
       setLoading(true);
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', `${API.endpoint}/upload`);
-      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-      const formData = new FormData();
-      acceptedFiles.forEach((file) => formData.append('files', file));
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === xhr.DONE) {
-          if (xhr.status === 200 || xhr.status === 201) {
-            console.log(xhr.responseText);
-            dispatch(musicUploaded());
-            history.push('/artist');
-            setLoading(false);
-          } else {
-            console.error(xhr.responseText);
-            setLoading(false);
-          }
-        }
-      };
-      xhr.send(formData);
+      const uploads = acceptedFiles.map(
+        (file) =>
+          new Promise((accept, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `${API.endpoint}/upload`);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            const formData = new FormData();
+            formData.append('file', file);
+            xhr.onreadystatechange = () => {
+              if (xhr.readyState === xhr.DONE) {
+                if (xhr.status === 200 || xhr.status === 201) {
+                  accept();
+                } else {
+                  reject();
+                }
+              }
+            };
+            xhr.send(formData);
+          }),
+      );
+      Promise.all(uploads)
+        .then(() => {
+          dispatch(musicUploaded());
+          setLoading(false);
+          history.push('/artist');
+        })
+        .catch(() => {
+          dispatch(musicUploaded());
+          setLoading(false);
+          history.push('/artist');
+        });
     },
     [dispatch, history, token],
   );
