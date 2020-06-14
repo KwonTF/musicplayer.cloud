@@ -46,10 +46,8 @@ const Album = () => {
 
   const AddMusic = useCallback(
     (music) => {
-      if (nowPlaying) {
-        dispatch(addMusic(music));
-      } else {
-        dispatch(addMusic(music));
+      dispatch(addMusic(music));
+      if (!nowPlaying) {
         dispatch(playPauseMusic());
       }
     },
@@ -117,7 +115,9 @@ const Album = () => {
                     }),
                   );
                 });
-                dispatch(playPauseMusic());
+                if (!nowPlaying) {
+                  dispatch(playPauseMusic());
+                }
               }}
             >
               Play Album
