@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, LinearProgress } from '@material-ui/core';
+import { Container, LinearProgress, Box } from '@material-ui/core';
 import { Router, Switch, Route } from 'react-router-dom';
 
 import Artist from './pages/Artist';
@@ -42,6 +42,7 @@ function App() {
             <PrivateRoute component={Upload} path="/upload" />
             <Route component={Page404} />
           </Switch>
+          <Box m={24} />
         </Container>
         <Editor />
         <Player />
