@@ -41,7 +41,7 @@ const MusicListItem = ({ index, music }) => {
 MusicListItem.propTypes = {
   index: PropTypes.number.isRequired,
   music: PropTypes.shape({
-    musicId: PropTypes.string.isRequired,
+    trackId: PropTypes.string.isRequired,
     title: PropTypes.string,
     artist: PropTypes.string,
     album: PropTypes.string,

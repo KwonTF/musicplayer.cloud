@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import {
   LinearProgress,
   Grid,
@@ -8,38 +7,16 @@ import {
   Paper,
   Box,
 } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import { musicUploaded } from '../utils/music';
-
-const ALBUM_QUERY = gql`
-  {
-    albums {
-      albumId
-      title
-      artist
-      cover
-    }
-  }
-`;
+import { ALBUMS_QUERY } from '../utils/query';
 
 const Album = () => {
-  const dispatch = useDispatch();
-  const { isMusicUploaded } = useSelector(({ music }) => ({
-    isMusicUploaded: music.uploaded,
-  }));
-  const { loading, data, refetch } = useQuery(ALBUM_QUERY);
-  if (isMusicUploaded) {
-    refetch();
-    dispatch(musicUploaded());
-  }
-
+  const { loading, data } = useQuery(ALBUMS_QUERY);
   if (loading) return <LinearProgress />;
 
   const albums = data.albums || [];
-
   return (
     <>
       <Helmet>

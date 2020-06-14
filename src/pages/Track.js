@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import {
   Table,
@@ -20,25 +19,10 @@ import { Helmet } from 'react-helmet';
 
 import { addMusic, playPauseMusic } from '../utils/player';
 import { setTrack, openTrack } from '../utils/editor';
-
-const TRACK_QUERY = gql`
-  {
-    tracks {
-      album
-      albumId
-      albumArtist
-      artist
-      cover
-      title
-      trackId
-      trackNumber
-      url
-    }
-  }
-`;
+import { TRACKS_QUERY } from '../utils/query';
 
 const Track = () => {
-  const { loading, data } = useQuery(TRACK_QUERY);
+  const { loading, data } = useQuery(TRACKS_QUERY);
   const dispatch = useDispatch();
   const { nowPlaying } = useSelector(({ player }) => ({
     nowPlaying: player.nowPlaying,
@@ -62,7 +46,7 @@ const Track = () => {
           track.artist,
           track.track,
           track.imageLink,
-          track.musicId,
+          track.trackId,
           track.album,
           track.albumArtist,
           track.albumId,
@@ -113,7 +97,7 @@ const Track = () => {
                     aria-label="add to queue"
                     onClick={() => {
                       const track = {
-                        musicId: row.trackId,
+                        trackId: row.trackId,
                         title: row.title,
                         artist: row.artist,
                         album: row.album,
@@ -132,7 +116,7 @@ const Track = () => {
                     aria-label="edit"
                     onClick={() => {
                       const track = {
-                        musicId: row.trackId,
+                        trackId: row.trackId,
                         title: row.title,
                         artist: row.artist,
                         album: row.album,

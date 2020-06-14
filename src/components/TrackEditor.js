@@ -8,54 +8,24 @@ import {
   Box,
   makeStyles,
 } from '@material-ui/core';
-import { gql } from 'apollo-boost';
 import { useMutation } from '@apollo/react-hooks';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import {
   onChangeField,
   changeEdit,
   initEditor,
   albumEdit,
 } from '../utils/editor';
-import { musicUploaded } from '../utils/music';
+import {
+  REMOVE_TRACK,
+  UPDATE_ALBUM,
+  UPDATE_TRACK,
+  ALBUMS_QUERY,
+  TRACKS_QUERY,
+  ARTISTS_QUERY,
+  ALBUM_QUERY,
+} from '../utils/query';
 
-const REMOVE_TRACK = gql`
-  mutation removingMutations($Id: String!) {
-    removeTrack(trackId: $Id)
-  }
-`;
-
-const UPDATE_TRACK = gql`
-  mutation updatingMutations(
-    $Id: String!
-    $album: String!
-    $albumArtist: String!
-    $artist: String!
-    $title: String!
-    $trackNumber: Int!
-  ) {
-    updateTrack(
-      trackId: $Id
-      album: $album
-      albumArtist: $albumArtist
-      artist: $artist
-      title: $title
-      trackNumber: $trackNumber
-    ) {
-      trackId
-    }
-  }
-`;
-
-const UPDATE_ALBUM = gql`
-  mutation updatingAlbums($Id: Int!, $album: String!, $albumArtist: String!) {
-    updateAlbum(albumId: $Id, artist: $albumArtist, title: $album) {
-      albumId
-    }
-  }
-`;
 const TrackBackDrop = styled(Backdrop)({ display: 'flex', zIndex: 1 });
 const useStyles = makeStyles(() => ({
   input: { color: '#FFFFFF' },
@@ -77,7 +47,7 @@ const ButtonBox = styled(Box)({
   justifyContent: 'flex-end',
 });
 
-const TrackEditor = ({ history }) => {
+const TrackEditor = () => {
   const [removeTrack] = useMutation(REMOVE_TRACK);
   const [updateTrack] = useMutation(UPDATE_TRACK);
   const [updateAlbum] = useMutation(UPDATE_ALBUM);
@@ -90,7 +60,7 @@ const TrackEditor = ({ history }) => {
     trackNumber,
     trackCoverLink,
     editing,
-    targetId,
+    trackId,
     albumName,
     albumArtist,
     trackEditing,
@@ -102,7 +72,7 @@ const TrackEditor = ({ history }) => {
     trackNumber: editor.trackNumber,
     trackCoverLink: editor.trackCoverLink,
     editing: editor.editing,
-    targetId: editor.targetId,
+    trackId: editor.trackId,
     albumName: editor.albumName,
     albumArtist: editor.albumArtist,
     trackEditing: editor.trackEditing,
@@ -119,35 +89,65 @@ const TrackEditor = ({ history }) => {
 
   const startEditing = useCallback(() => {
     if (editing) {
-      // dispatch(editMusic(targetId, trackName, trackArtist, trackNumber));
-      // dispatch(musicEdited(targetId, trackName, trackArtist, trackNumber));
       if (trackEditing) {
         updateTrack({
           variables: {
-            Id: targetId,
+            trackId,
             album: albumName,
             albumArtist,
             artist: trackArtist,
             title: trackName,
             trackNumber: parseInt(trackNumber, 10),
           },
+          refetchQueries: [
+            {
+              query: ALBUMS_QUERY,
+            },
+            {
+              query: TRACKS_QUERY,
+            },
+            {
+              query: ARTISTS_QUERY,
+            },
+            {
+              query: ALBUM_QUERY,
+              variables: {
+                albumId: parseInt(albumId, 10),
+              },
+            },
+          ],
         });
       } else {
         updateAlbum({
           variables: {
-            Id: parseInt(albumId, 10),
+            albumId: parseInt(albumId, 10),
             album: albumName,
             albumArtist,
           },
+          refetchQueries: [
+            {
+              query: ALBUMS_QUERY,
+            },
+            {
+              query: TRACKS_QUERY,
+            },
+            {
+              query: ARTISTS_QUERY,
+            },
+            {
+              query: ALBUM_QUERY,
+              variables: {
+                albumId: parseInt(albumId, 10),
+              },
+            },
+          ],
         });
       }
-      history.push('/artist');
       dispatch(initEditor());
-      dispatch(musicUploaded());
     }
     dispatch(changeEdit());
   }, [
-    targetId,
+    trackId,
     trackName,
     trackArtist,
     trackNumber,
@@ -156,7 +156,6 @@ const TrackEditor = ({ history }) => {
     updateTrack,
     albumArtist,
     albumName,
-    history,
     trackEditing,
     updateAlbum,
     albumId,
@@ -170,11 +169,28 @@ const TrackEditor = ({ history }) => {
   );
 
   const onDeleteMusic = useCallback(() => {
-    removeTrack({ variables: { Id: targetId } });
-    history.push('/artist');
+    removeTrack({
+      variables: { trackId },
+      refetchQueries: [
+        {
+          query: ALBUMS_QUERY,
+        },
+        {
+          query: TRACKS_QUERY,
+        },
+        {
+          query: ARTISTS_QUERY,
+        },
+        {
+          query: ALBUM_QUERY,
+          variables: {
+            albumId: parseInt(albumId, 10),
+          },
+        },
+      ],
+    });
     dispatch(initEditor());
-    dispatch(musicUploaded());
-  }, [history, removeTrack, targetId, dispatch]);
+  }, [removeTrack, trackId, dispatch, albumId]);
 
   return (
     <TrackBackDrop open={isTrackOpened}>
@@ -303,10 +319,5 @@ const TrackEditor = ({ history }) => {
     </TrackBackDrop>
   );
 };
-TrackEditor.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
-export default withRouter(TrackEditor);
+export default TrackEditor;
